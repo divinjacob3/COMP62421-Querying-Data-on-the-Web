@@ -1,0 +1,7 @@
+select * from country limit 4;
+Name       Code  Capital  Province   Area    Population
+---------  ----  -------  ---------  ------  ----------
+Albania    AL    Tirana   Albania    28750   2800138   
+Greece     GR    Athina   Attikis    131940  10816286  
+Macedonia  MK    Skopje   Macedonia  25333   2059794   
+Serbia     SRB   Beograd  Serbia     77474   7120666   

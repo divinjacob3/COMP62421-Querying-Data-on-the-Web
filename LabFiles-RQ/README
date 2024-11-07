@@ -1,0 +1,22 @@
+
+This directory contains the files needed for the Relational Querying (RQ) lab.  Specifically, we have:
+
+sqliterc: Some parameters for sqlite3
+TestScript.sql: A script file that runs a query using sqlite3
+TestOutput.log: A log file produced as a result of running TestScript.sql
+ra.jar: The Java jar file for the RA Relational Algebra system. Note you will need to have Java installed to run this.
+RA:Documentation.pdf: The documentation for the RA Relational Algebra system
+TestQuery.ra: A file containing a relational algebra query
+RaOutput.log:  A log file produced as a result of running TestQuery.ra
+mondial.db: The Mondial database for sqlite3
+mondial.properties: Information on the database to use, for ra
+mondial-schema.sql: The Mondial database schema
+
+Here is the unix command line to run sqlite3 on TestScript.sql, which will populate TestOutput.log.
+
+sqlite3 -init sqliterc mondial.db < TestScript.sql
+
+Here is the unix command line to run ra on TestQuery.ra, which populates RaOutput.log; of course this needs java to be installed.
+
+java -jar ra.jar mondial.properties -i TestQuery.ra -o RaOutput.log
+
