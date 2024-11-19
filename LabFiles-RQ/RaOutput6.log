@@ -1,0 +1,311 @@
+         \project_{Name}(
+             \project_{Name,Code}(geo_sea) \join_{Code=Country}
+        );
+Error parsing input:
+line 3:9: unexpected token: )
+Rest of input skipped
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(geo_sea) \join_{Code=Country});
+Error parsing input:
+line 2:64: unexpected token: )
+Rest of input skipped
+
+ÿBye!
+
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='United Kingdom'}(Country)));
+Output schema: (River null)
+-----
+<TYPE UNSUPPORTED>
+Thames
+-----
+Total number of rows: 2
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code})));
+Error parsing input:
+line 3:64: unexpected token: )
+Rest of input skipped
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_(Country))));
+Error tokenizing input:
+line 4:30: expecting '{', found '('
+Rest of input skipped
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name}(Country))));
+Error validating subquery:
+\project_{Name,Code} <- ERROR!
+    River <- output schema: RA_TMP_VIEW_1(Name text, River text, Lake null, Sea null, Length integer, SourceLatitude float, SourceLongitude float, Mountains text, SourceElevation integer, EstuaryLatitude float, EstuaryLongitude float)
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='India'}(Country))));
+Error validating subquery:
+\project_{Name,Code} <- ERROR!
+    River <- output schema: RA_TMP_VIEW_1(Name text, River text, Lake null, Sea null, Length integer, SourceLatitude float, SourceLongitude float, Mountains text, SourceElevation integer, EstuaryLatitude float, EstuaryLongitude float)
+
+ÿBye!
+
+         \project_{Name}(
+             \project_{Name,Code}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='United Kingdom'}(Country))));
+Error validating subquery:
+\project_{Name,Code} <- ERROR!
+    River <- output schema: RA_TMP_VIEW_1(Name text, River text, Lake null, Sea null, Length integer, SourceLatitude float, SourceLongitude float, Mountains text, SourceElevation integer, EstuaryLatitude float, EstuaryLongitude float)
+
+ÿBye!
+
+         \project_{Name,Length}(
+             \project_{Name, Length}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='India'}(Country))));
+Output schema: (Name text, Length integer)
+-----
+Brahmaputra|2896
+Ganges|2511
+-----
+Total number of rows: 2
+
+ÿBye!
+
+\project_{Name}(
+    (\project_{Name, Code}(\text{Country})
+     \join_{Code = Country}
+     \project_{Country}(\text{geo_sea}))
+);
+Error tokenizing input:
+line 2:28: unexpected char: '\'
+Rest of input skipped
+
+ÿBye!
+
+\project_{Name}(
+    (\project_{Name, Code}(Country)
+     \join_{Code = Country}
+     \project_{Country}(geo_sea))
+);
+Output schema: (Name text)
+-----
+Albania
+Algeria
+American Samoa
+Angola
+Anguilla
+Antigua and Barbuda
+Argentina
+Aruba
+Australia
+Bahamas
+Bahrain
+Bangladesh
+Barbados
+Belgium
+Belize
+Benin
+Bermuda
+Bosnia and Herzegovina
+Brazil
+British Virgin Islands
+Brunei
+Bulgaria
+Cambodia
+Cameroon
+Canada
+Cape Verde
+Cayman Islands
+Ceuta
+Chile
+China
+Christmas Island
+Cocos Islands
+Colombia
+Comoros
+Congo
+Cook Islands
+Costa Rica
+Cote dIvoire
+Croatia
+Cuba
+Curacao
+Cyprus
+Denmark
+Djibouti
+Dominica
+Dominican Republic
+Ecuador
+Egypt
+El Salvador
+Equatorial Guinea
+Eritrea
+Estonia
+Falkland Islands
+Faroe Islands
+Fiji
+Finland
+France
+French Guiana
+French Polynesia
+Gabon
+Gambia
+Gaza Strip
+Georgia
+Germany
+Ghana
+Gibraltar
+Greece
+Greenland
+Grenada
+Guadeloupe
+Guam
+Guatemala
+Guernsey
+Guinea
+Guinea-Bissau
+Guyana
+Haiti
+Honduras
+Hong Kong
+Iceland
+India
+Indonesia
+Iran
+Iraq
+Ireland
+Isle of Man
+Israel
+Italy
+Jamaica
+Japan
+Jersey
+Jordan
+Kenya
+Kiribati
+Kuwait
+Latvia
+Lebanon
+Liberia
+Libya
+Lithuania
+Macao
+Madagascar
+Malaysia
+Maldives
+Malta
+Marshall Islands
+Martinique
+Mauritania
+Mauritius
+Mayotte
+Melilla
+Mexico
+Micronesia
+Monaco
+Montenegro
+Montserrat
+Morocco
+Mozambique
+Myanmar
+Namibia
+Nauru
+Netherlands
+New Caledonia
+New Zealand
+Nicaragua
+Nigeria
+Niue
+Norfolk Island
+North Korea
+Northern Mariana Islands
+Norway
+Oman
+Pakistan
+Palau
+Panama
+Papua New Guinea
+Peru
+Philippines
+Pitcairn
+Poland
+Portugal
+Puerto Rico
+Qatar
+Reunion
+Romania
+Russia
+Saint Barthelemy
+Saint Helena
+Saint Kitts and Nevis
+Saint Lucia
+Saint Martin
+Saint Pierre and Miquelon
+Saint Vincent and the Grenadines
+Samoa
+Sao Tome and Principe
+Saudi Arabia
+Senegal
+Seychelles
+Sierra Leone
+Singapore
+Sint Maarten
+Slovenia
+Solomon Islands
+Somalia
+South Africa
+South Korea
+Spain
+Sri Lanka
+Sudan
+Suriname
+Svalbard
+Sweden
+Syria
+Taiwan
+Tanzania
+Thailand
+Timor-Leste
+Togo
+Tokelau
+Tonga
+Trinidad and Tobago
+Tunisia
+Turkey
+Turks and Caicos Islands
+Tuvalu
+Ukraine
+United Arab Emirates
+United Kingdom
+United States
+Uruguay
+Vanuatu
+Venezuela
+Vietnam
+Virgin Islands
+Wallis and Futuna
+Western Sahara
+Yemen
+Zaire
+-----
+Total number of rows: 198
+
+ÿBye!
+

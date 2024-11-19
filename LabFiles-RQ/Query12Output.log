@@ -1,0 +1,21 @@
+
+SELECT DISTINCT name AS country_name, population / 2 AS half_population
+FROM Country
+ORDER BY country_name
+LIMIT 10;
+country_name         half_population
+-------------------  ---------------
+Afghanistan          13011550       
+Albania              1400069        
+Algeria              18531410       
+American Samoa       27759          
+Andorra              39057          
+Angola               12191650       
+Anguilla             6518           
+Antigua and Barbuda  40899          
+Argentina            21334750       
+Armenia              1513439        
+Run Time: real 0.006 user 0.000000 sys 0.000000
+
+
+

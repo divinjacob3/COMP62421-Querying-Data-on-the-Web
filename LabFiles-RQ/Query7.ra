@@ -1,0 +1,5 @@
+\project_{Name}(Lake)
+\union
+\project_{Name}(River)
+\union
+\project_{Name}(Sea);

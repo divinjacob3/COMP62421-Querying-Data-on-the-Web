@@ -1,0 +1,53 @@
+
+This directory contains the files needed for the Relational Optimization (RO) lab.  Specifically, we have:
+
+sqliterc: Some parameters for sqlite3
+TestScript.sql: A script file that runs a query using sqlite3
+TestOutput.log: A log file produced as a result of running TestScript.sql
+mondial.db: The Mondial database for sqlite3
+mondial.properties: Information on the database to use, for ra
+mondial-schema.sql: The Mondial database schema
+mondial-populate.sql: SQL commands to populate the mondial schema
+mondial-create-tables.sql: SQL commands to create a Mondial database
+mondial-create-tables-no-keys.sql: SQL commands to create a Mondial database without keys
+MondialCreate.sql: sqlite3 commands to create and populate a mondial database
+MondialCreate10Times.sql: sqlite3 commands to a Mondial database 10 times the normal size
+MondialCreate20Times.sql: sqlite3 commands to a Mondial database 20 times the normal size
+loadandrunsqlitescript.sh: a shell script for timing sqlite tasks
+
+Here is the unix command line to run sqlite3 on TestScript.sql, which will populate TestOutput.log.
+
+sqlite3 -init sqliterc mondial.db < TestScript.sql
+
+You can create a Mondial database (named newmondial.db) from scratch using:
+
+sqlite3 newmondial.db < MondialCreate.sql
+
+If you would like a bigger database that yields longer runtimes, one that is 10 or 20 times the size of the original (by duplicating the original database) can be obtained by: 
+
+sqlite3 mondial10.db < MondialCreate10Times.sql
+sqlite3 mondial20.db < MondialCreate20Times.sql
+
+Creating the bigger databases can take a while.
+
+To run specific tasks and capture the results, you can use loadandrunsqlitescript.sh.  Here is an example, which runs the task in TestScript.sql over the mondial10.db database, appending the time that it took to Timescript.log:
+
+./loadandrunsqlitescript.sh mondial10.db TestScript.sql TimeScript.output TimeScript.log
+
+After two runs of the above command, TimeScript.log will contain something like:
+
+Thu 18 Nov 2021 09:42:20 GMT
+Normans-iMac.local mondial10.db TestScript.sql TimeScript.output
+
+real    0m0.899s
+user    0m0.002s
+sys     0m0.006s
+Thu 18 Nov 2021 09:42:56 GMT
+Normans-iMac.local mondial10.db TestScript.sql TimeScript.output
+
+real    0m0.009s
+user    0m0.002s
+sys     0m0.003s
+
+So, it has captured which task was run, over which database, and how long it took.  As such, the queries for the lab can be written in files like TestScript.sql, and a single script file can be created containing multiple runs of loadandrunsqlitescript.sh to execute all the runs for the lab.  Interestingly, the second run is much faster than the first, potentially as a result of the fact that the first run was 'cold'.  
+

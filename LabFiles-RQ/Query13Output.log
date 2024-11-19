@@ -1,0 +1,12 @@
+
+SELECT *
+FROM City
+WHERE name = 'Manchester';
+Name        Country  Province       Population  Latitude  Longitude  Elevation
+----------  -------  -------------  ----------  --------  ---------  ---------
+Manchester  GB       North West     510746      NULL      NULL       NULL     
+Manchester  USA      New Hampshire  109571      NULL      NULL       NULL     
+Run Time: real 0.002 user 0.000000 sys 0.000000
+
+
+

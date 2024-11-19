@@ -1,0 +1,24 @@
+         \project_{Name,Length}(
+             \project_{Name, Length}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='United Kingdom'}(Country))));
+Output schema: (Name text, Length integer)
+-----
+Thames|346
+-----
+Total number of rows: 1
+
+ÿBye!
+
+         \project_{Name,Length}(
+             \project_{Name, Length}(River) \join_{Name=River}
+                 (\project_{River}(located \join_{Country=Code} 
+                     \select_{Name='United Kingdom'}(Country))));
+Output schema: (Name text, Length integer)
+-----
+Thames|346
+-----
+Total number of rows: 1
+
+ÿBye!
+

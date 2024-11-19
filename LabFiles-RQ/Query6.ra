@@ -1,0 +1,5 @@
+\project_{Name}(
+    (\project_{Name, Code}(Country)
+     \join_{Code = Country}
+     \project_{Country}(geo_sea))
+);

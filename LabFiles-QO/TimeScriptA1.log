@@ -1,0 +1,25 @@
+19 Nov 2024 22:31:36
+DJ-Laptop mondial10.db QueryA1.sql TimeScriptA1.output
+
+real	0m0.071s
+user	0m0.000s
+sys	0m0.015s
+19 Nov 2024 22:32:38
+DJ-Laptop mondial10.db QueryA1.sql TimeScriptA1.output
+
+real	0m0.066s
+user	0m0.000s
+sys	0m0.000s
+19 Nov 2024 22:35:27
+DJ-Laptop mondial10.db QueryA1.sql TimeScriptA1.output
+Parse error near line 7: no such column: Continent.Code
+
+real	0m0.112s
+user	0m0.000s
+sys	0m0.030s
+19 Nov 2024 22:35:53
+DJ-Laptop mondial10.db QueryA1.sql TimeScriptA1.output
+
+real	0m0.093s
+user	0m0.000s
+sys	0m0.000s

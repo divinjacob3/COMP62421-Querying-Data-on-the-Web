@@ -1,0 +1,73 @@
+\project_{Country.Name, Organization.name}(
+    (\select_(Name = 'Buddhism')(Religion))
+    \join_{Country.Code = Religion.Country}
+    (\project_{Name, Code}(Country)
+    \join_{Country.Code = Organization.Country}
+     \project_{name}(Organization))
+);
+Error tokenizing input:
+line 2:14: expecting '{', found '('
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Country.Code = isMember.Country}
+    (isMember \join_{isMember.Organization = Organization.ID} Organization)
+);ÿError tokenizing input:
+line 5:3: unexpected char: 0xFFFF
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Country.Code = isMember.Country}
+    \join_{isMember.Organization = Organization.ID}
+);Error parsing input:
+line 4:5: unexpected token: \join
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Country.Code = isMember.Country}
+    \join_{isMember.Organization = Organization.ID} Organization
+);Error parsing input:
+line 4:5: unexpected token: \join
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Country.Code = isMember.Country} isMember
+    \join_{isMember.Organization = Organization.ID} Organization
+);ÿError tokenizing input:
+line 5:3: unexpected char: 0xFFFF
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Country.Code = isMember.Country}
+    (isMember \join_{isMember.Organization = Organization.ID} Organization)
+);ÿError tokenizing input:
+line 5:3: unexpected char: 0xFFFF
+Rest of input skipped
+
+ÿBye!
+
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Code = Membership.Country}
+    (Membership \join_{Membership.Organization = Organization.ID} Organization)
+);ÿError tokenizing input:
+line 5:3: unexpected char: 0xFFFF
+Rest of input skipped
+
+ÿBye!
+

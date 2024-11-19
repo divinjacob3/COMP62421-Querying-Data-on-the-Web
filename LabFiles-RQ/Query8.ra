@@ -1,0 +1,5 @@
+\project_{Country.Name, Organization.Name} (
+    (\project_{Name, Code}(\select_{Religion = 'Buddhism'}(Country \join Religion)))
+    \join_{Code = Membership.Country}
+    (Membership \join_{Membership.Organization = Organization.ID} Organization)
+);

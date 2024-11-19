@@ -1,0 +1,11 @@
+.read mondial-create-tables-no-keys.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
+.read mondial-populate.sql
