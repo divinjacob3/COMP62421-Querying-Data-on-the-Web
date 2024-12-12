@@ -18,8 +18,8 @@
 \setlength{\parindent}{0pt}
 
 \section*{Timesheet}
-
-\begin{longtable}{|p{4cm}|p{4.5cm}|p{6cm}|}
+\subsection*{Exploration}
+\begin{longtable}{|p{3.9cm}|p{4.05cm}|p{6.8cm}|}
     \hline
     \textbf{Task} & \textbf{Time Spent (hh:mm)} & \textbf{Comments} \\ 
     \hline
@@ -30,16 +30,85 @@
     \hline
     \endhead
 
-    Exploring and retrieving predicates for continents & 00:45 & 
-        - There were multiple instances of the same continent, but with different names \newline
-        - Area was missing for some of them
+    Exploring predicates for continents & 01:15 & 
+        - Took some time to find the correct predicate for continents \newline
+        - Had to investigate sensible methods to remove sub continents and other entities which
+        were classified as continent, but do not relate to the meaning of continent in Mondial.
     \\
     \hline
+    Exploring predicates for countries & 01:35 & 
+        - Had many former countries, and unrecognised countries \newline
+        - Faced issues with namespaces and choice of predicates \newline
+        - Needed to use filters to get valid, current countries
+    \\
+    \hline
+    Exploring predicates for cities & 01:25 & 
+        - Faced issues with namespaces and choice of predicates \newline
+        - Needed to get cities based on valid, current countries
+    \\
+    \hline
+    Exploring predicates for provinces & 02:50 & 
+        - Could not retrieve provinces using the same predicates from cities and countries.  \newline
+        - Had to further investigate how a province could be classified in dbpedia. \newline
+        - Some provinces included clerical regions, such as religious diocese, this required further investigation for removal.
+    \\
+    \hline
+    Exploring predicates for organizations & 01:20 & 
+        - Dbpedia defines organizations differently to Mondial, organizations in dbpedia included schools and clubs \newline
+        - Research showed that organizations in Mondial are either political or economical organizations. This required
+        further investigation on how these organizations can be specifically filtered.
+    \\
+    \hline
+    Exploring predicates for languages & 01:55 & 
+        - Countries did not have one common property for spoken languages, this required further investigation of countries to identify the
+        variations of how spoken languages are represented for each country.
+    \\
+    \hline
+\end{longtable}
 
-    Exploring and retrieving predicates for countries & 02:00 & 
-        - Had many former countries, and unrecognised states \newline
-        - Faced issues with namespaces
-        - 
+
+\subsection*{Retrieval}
+\begin{longtable}{|p{3.9cm}|p{4.05cm}|p{6.8cm}|}
+    \hline
+    \textbf{Task} & \textbf{Time Spent (hh:mm)} & \textbf{Comments} \\ 
+    \hline
+    \endfirsthead
+    
+    \hline
+    \textbf{Task} & \textbf{Time Spent (hh:mm)} & \textbf{Comments} \\ 
+    \hline
+    \endhead
+
+    Retrieving predicates for continents & 00:35 & 
+        - Most continents had predicates for Area. \newline
+        - Missing values for area was allowed, as I could not find a path to any other predicates which could represent area of continents.
+    \\
+    \hline
+    Retrieving predicates for countries & 01:25 & 
+        - Countries did not use consistent predicates to respresent the same attribute. \newline
+        - Further work was needed to get possible candidate values for some attributes. \newline
+        - There were some missing values, in such instances a comprimise was made to either allow or fill-in a missing value.
+    \\
+    \hline
+    Retrieving predicates for cities & 02:00 & 
+        - Faced some problems in retrieving a province for the city. \newline
+        - Some predicates were missing, e.g. population, latitude, longitude and elevation.
+    \\
+    \hline
+    Retrieving predicates for provinces & 03:00 & 
+        - Most of the time was taken to find a way to get a capital city for provinces, escpecially where such values were missing, I had to decide on the best way to impute a value.  \newline
+        - Took time to handle missing values for population and area. \newline
+        - Used existing filters from exploration to remove clerical/religious administrative regions.
+    \\
+    \hline
+    Retrieving predicates for organizations & 01:45 & 
+        - Difficulty in retrieving formation/established dates, there wasn't a consistent way that organizations represented these values.  \newline
+        - Information about the headquarter city/country/province were difficult to retrieve, most of it were missing and I did not have enough time to find alternative predicates that represent this information.
+    \\
+    \hline
+    Retrieving predicates for languages & 02:30 & 
+        - Most of the time was spent on calculating the percentage of speakers. No langauges had a percentage of speakers, so it required a hacky way of calculating a percentage. \newline
+        - Some languages did not have a property for the number of speakers. I did not have enough time to find other properties which may refer to the number of speakers.
     \\
     \hline
 \end{longtable}
@@ -53,7 +122,7 @@ SELECT DISTINCT ?continent
 WHERE {
     ?continent rdf:type dbo:Continent.
     ?continent rdfs:label ?continentN.
-    FILTER (lang(?continentN) = "en")
+    FILTER(lang(?continentN) = "en")
     BIND(REPLACE(?continentN, "@en", "" ) AS ?cName)
     FILTER(?cName in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
 }
@@ -76,13 +145,24 @@ WHERE {
 
 
 \section{Country}
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT 
+    ?country
+WHERE {
+    ?country rdf:type dbo:Country. 
+    ?country dcterms:subject dbc:Member_states_of_the_United_Nations. 
+}
+\end{verbatim}}
+
 
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
 PREFIX dcterms: <http://purl.org/dc/terms/>
 SELECT DISTINCT 
     ?Name
-    ?Name AS ?Code
+    COALESCE(STR(?isoCode), ?Name) AS ?Code
     (SAMPLE(?capitalCity) AS ?Capital)
     (SAMPLE(?ProvinceValue) AS ?Province)
     (xsd:integer(COALESCE(?cPop, ?popEst, ?popCen)) AS ?Population)
@@ -90,7 +170,8 @@ SELECT DISTINCT
 WHERE {
     ?country rdf:type dbo:Country. 
     ?country dcterms:subject dbc:Member_states_of_the_United_Nations. 
-    ?country rdfs:label ?countryN. 
+    ?country rdfs:label ?countryN.
+    OPTIONAL{?country dbo:iso31661Code ?isoCode.}
     FILTER(lang(?countryN) = "en")
     BIND(REPLACE(?countryN, "@en", "") AS ?Name)
     FILTER(?Name != "Member states of the United Nations")
@@ -98,38 +179,39 @@ WHERE {
     OPTIONAL{?country dbp:populationEstimate ?popEst}
     OPTIONAL{?country dbp:populationCensus ?popCen}
     OPTIONAL{?country dbo:area ?cArea}
-    OPTIONAL{ 
+    {
         ?country dbo:capital ?capitalC.
-        ?capitalC rdfs:label ?capitalCN. 
-        FILTER(lang(?capitalCN) = "en")
-        BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
-        OPTIONAL{ 
-            ?capitalC dbo:subdivision ?capitalSubdivisionEntity.
-            ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN.
-            FILTER(lang(?capitalSubdivisionN) = "en")
-            BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)}
+    } UNION {
+        ?country dbr:capital ?capitalC.
     }
-    OPTIONAL { 
-        ?country dbp:capital ?capitalC2.
-        ?capitalC2 rdfs:label ?capitalCN2. 
-        FILTER(lang(?capitalCN2) = "en")
-        BIND(REPLACE(?capitalCN2, "@en", "") AS ?capitalCity)
-        OPTIONAL { 
-            ?capitalC2 dbo:subdivision ?capitalSubdivisionEntity2.
-            ?capitalSubdivisionEntity2 rdfs:label ?capitalSubdivisionN2.
-            FILTER(lang(?capitalSubdivisionN2) = "en")
-            BIND(REPLACE(?capitalSubdivisionN2, "@en", "") AS ?capitalSubdivision)}
-    }
+    ?capitalC rdfs:label ?capitalCN. 
+    FILTER(lang(?capitalCN) = "en")
+    BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+    OPTIONAL{ 
+        ?capitalC dbo:subdivision ?capitalSubdivisionEntity.
+        ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN.
+        FILTER(lang(?capitalSubdivisionN) = "en")
+        BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)}
     BIND(COALESCE(?capitalSubdivision, ?Name) AS ?ProvinceValue)
 }
-GROUP BY ?Name ?cPop ?popEst ?popCen
-    
+GROUP BY ?Name ?isoCode ?cPop ?popEst ?popCen
 \end{verbatim}}
 
 \section{City}
 
-\subsection{Retrieval}
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?country ?city
+WHERE {
+    ?country rdf:type dbo:Country;
+        dcterms:subject dbc:Member_states_of_the_United_Nations.
+    ?city rdf:type dbo:City;
+        dbo:country ?country.
+}
+\end{verbatim}}
 
+\subsection{Retrieval}
 {\footnotesize\begin{verbatim}
 PREFIX dcterms: <http://purl.org/dc/terms/>
 SELECT DISTINCT ?Name ?Country SAMPLE(?ProvinceValue) AS ?Province
@@ -139,17 +221,18 @@ WHERE {
     ?countryN rdf:type dbo:Country;
         dcterms:subject dbc:Member_states_of_the_United_Nations;
         rdfs:label ?countryLbl.
-    ?cityN rdf:type schema:City;
+    OPTIONAL{?countryN dbo:iso31661Code ?isoCode.}
+    ?cityN rdf:type dbo:City;
         dbo:country ?countryN;
         rdfs:label ?cityLbl.
     FILTER(lang(?countryLbl) = "en" && lang(?cityLbl) = "en")
-    BIND(REPLACE(?countryLbl, "@en", "") AS ?Country)
-    BIND(REPLACE(?cityLbl, "@en", "") AS ?Name)
+    BIND(COALESCE(STR(?isoCode), STR(?countryLbl)) AS ?Country)
+    BIND(STR(?cityLbl) AS ?Name)
     OPTIONAL{ 
         ?cityN dbo:subdivision ?subDiv.
         ?subDiv rdfs:label ?subDivLbl .
         FILTER(lang(?subDivLbl) = "en")
-        BIND(REPLACE(?subDivLbl, "@en", "") AS ?citySubDiv)}
+        BIND(STR(?subDivLbl) AS ?citySubDiv)}
     BIND(COALESCE(?citySubDiv, ?Country) AS ?ProvinceValue)
     OPTIONAL{?cityN geo:lat ?Lat}
     OPTIONAL{?cityN geo:long ?Long}
@@ -160,38 +243,48 @@ GROUP BY ?Country ?Name ?Population
 \end{verbatim}}
 
 \section{Province}
+
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Province
+WHERE {
+    ?Province a dbo:AdministrativeRegion .
+    FILTER NOT EXISTS {
+        ?Province a dbo:ClericalAdministrativeRegion .
+    }
+}    
+\end{verbatim}
+}
+
+
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
 PREFIX dcterms: <http://purl.org/dc/terms/>
 SELECT DISTINCT ?Name ?Country xsd:integer(?population) AS ?Population 
     xsd:integer(SAMPLE(?totalArea) / 1000) AS ?Area ?Capital ?Name AS ?CapProv
 WHERE {
-    ?countryP rdf:type dbo:Country ;
-        dcterms:subject dbc:Member_states_of_the_United_Nations ;
-        rdfs:label ?countryName .
-
-    ?region a dbo:AdministrativeRegion ;
-        dbo:country ?countryP ;
-        rdfs:label ?regionName .
-
+    ?countryP rdf:type dbo:Country;
+        dcterms:subject dbc:Member_states_of_the_United_Nations;
+        rdfs:label ?countryName.
+    OPTIONAL{?countryP dbo:iso31661Code ?isoCode}
+    ?region a dbo:AdministrativeRegion;
+        dbo:country ?countryP;
+        rdfs:label ?regionName.
     FILTER NOT EXISTS {
-    FILTER (CONTAINS(LCASE(?regionName), "archdiocese") || 
-        CONTAINS(LCASE(?regionName), "diocese"))
+        ?region a dbo:ClericalAdministrativeRegion.
     }
+    OPTIONAL{?region dbo:areaTotal ?totalArea}
+    OPTIONAL{?region dbo:populationTotal ?population}
+    OPTIONAL{?region dbo:capital ?capitalCity.
+        ?capitalCity rdfs:label ?capitalLabel.
+        FILTER(lang(?capitalLabel) = "en")}
+    OPTIONAL{?region dbo:largestCity ?largestCity.
+        ?largestCity rdfs:label ?largestCityLabel.
+        FILTER(lang(?largestCityLabel) = "en")}
 
-    OPTIONAL { ?region dbo:areaTotal ?totalArea }
-    OPTIONAL { ?region dbo:populationTotal ?population }
-
-    OPTIONAL{ ?region dbo:capital ?capitalCity .
-        ?capitalCity rdfs:label ?capitalLabel .
-        FILTER (lang(?capitalLabel) = "en")}
-    OPTIONAL { ?region dbo:largestCity ?largestCity .
-        ?largestCity rdfs:label ?largestCityLabel .
-        FILTER (lang(?largestCityLabel) = "en") }
-
-    FILTER (lang(?countryName) = "en" && lang(?regionName) = "en")
-
-    BIND(STR(?countryName) AS ?Country)
+    FILTER(lang(?countryName) = "en" && lang(?regionName) = "en")
+    BIND(COALESCE(STR(?isoCode), STR(?countryName)) AS ?Country)
     BIND(STR(?regionName) AS ?Name)
     BIND(COALESCE(STR(?capitalLabel), STR(?largestCityLabel)) AS ?Capital)
 }
@@ -199,6 +292,29 @@ GROUP BY ?Name ?Country ?population ?Capital
 \end{verbatim}}
 
 \section{Organization}
+
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Organization 
+WHERE {
+    ?Organization rdf:type dbo:Organisation;
+        rdfs:label ?orgName;
+        dcterms:subject ?category .
+    FILTER(?category IN (
+        dbc:Political_organizations, dbc:International_political_organizations,
+        dbc:Economic_organizations, dbc:Trade_associations,
+        dbc:Intergovernmental_organizations, dbc:International_economic_organizations,
+        dbc:United_Nations))
+    FILTER NOT EXISTS{
+        ?Organization dcterms:subject ?excludeCategory.
+        ?excludeCategory rdfs:label ?excludeLabel.
+        FILTER(CONTAINS(LCASE(?excludeLabel), "school") ||
+        CONTAINS(LCASE(?excludeLabel), "club"))
+    }
+}
+\end{verbatim}}
+
 
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
@@ -211,42 +327,44 @@ WHERE {
         rdfs:label ?orgName .
     ?org dcterms:subject ?category .
     FILTER(?category IN (
-            dbc:Political_organizations, dbc:International_political_organizations,
-            dbc:Economic_organizations, dbc:Trade_associations,
-            dbc:Intergovernmental_organizations, dbc:International_economic_organizations,
-            dbc:United_Nations))
+        dbc:Political_organizations, dbc:International_political_organizations,
+        dbc:Economic_organizations, dbc:Trade_associations,
+        dbc:Intergovernmental_organizations, dbc:International_economic_organizations,
+        dbc:United_Nations))
     FILTER NOT EXISTS{
         ?org dcterms:subject ?excludeCategory .
         ?excludeCategory rdfs:label ?excludeLabel .
-        FILTER (CONTAINS(LCASE(?excludeLabel), "school") || 
+        FILTER(CONTAINS(LCASE(?excludeLabel), "school") || 
             CONTAINS(LCASE(?excludeLabel), "club"))}
-    OPTIONAL { ?org dbp:abbreviation ?abbreviation . }
-    OPTIONAL { ?org dbp:nickname ?nickname . }
-    OPTIONAL { ?org dbp:establishedDate ?establishedDate. }
+    OPTIONAL{?org dbp:abbreviation ?abbreviation.}
+    OPTIONAL{?org dbp:nickname ?nickname.}
+    OPTIONAL{?org dbp:establishedDate ?establishedDate. }
     OPTIONAL {?org dbp:formation ?formation .}
-    OPTIONAL { ?org dbo:foundingYear ?established . }
-    OPTIONAL { ?org dbo:headquarter ?hq . 
-        OPTIONAL { 
+    OPTIONAL{?org dbo:foundingYear ?established.}
+    OPTIONAL{?org dbo:headquarter ?hq . 
+        OPTIONAL{
             ?hq rdf:type dbo:City .
-            ?hq rdfs:label ?hqLabel . FILTER (lang(?hqLabel) = "en")
-            OPTIONAL { ?hq dbo:country ?hqCountry .
+            ?hq rdfs:label ?hqLabel . FILTER(lang(?hqLabel) = "en")
+            OPTIONAL{?hq dbo:country ?hqCountry .
                 ?hqCountry rdfs:label ?hqCountryName .
-                FILTER (lang(?hqCountryName) = "en") }
-            OPTIONAL { ?hq dbo:subdivision ?hqRegion .
+                OPTIONAL{?hqCountry dbo:iso31661Code ?isoCode}
+                FILTER(lang(?hqCountryName) = "en") }
+            OPTIONAL{?hq dbo:subdivision ?hqRegion .
                 ?hqRegion rdfs:label ?hqRegionName .
-                FILTER (lang(?hqRegionName) = "en") }
-            OPTIONAL { ?hq rdfs:label ?hqCityName .
-                FILTER (lang(?hqCityName) = "en") }}    
+                FILTER(lang(?hqRegionName) = "en") }
+            OPTIONAL{?hq rdfs:label ?hqCityName .
+                FILTER(lang(?hqCityName) = "en") }}    
         OPTIONAL {
             ?hq rdf:type dbo:Country .
+            OPTIONAL{?hq dbo:iso31661Code ?isoCode}
             ?hq rdfs:label ?hqCountryName .
-            FILTER (lang(?hqCountryName) = "en")}}
-    FILTER (lang(?orgName) = "en")
+            FILTER(lang(?hqCountryName) = "en")}}
+    FILTER(lang(?orgName) = "en")
     BIND(STR(?orgName) AS ?Name)
     BIND(COALESCE(STR(?abbreviation), STR(?nickname)) AS ?Abbreviation)
     BIND(COALESCE(STR(?hqCityName)) AS ?HQCity)
     BIND(COALESCE(STR(?hqRegionName)) AS ?HQProvince)
-    BIND(COALESCE(STR(?hqCountryName), STR(?hqLabel)) AS ?HQCountry)
+    BIND(COALESCE(STR(?isoCode), STR(?hqCountryName), STR(?hqLabel)) AS ?HQCountry)
     BIND(COALESCE(STR(?establishedDate), STR(?formation), STR(?established)) AS ?Established)
 }
 GROUP BY ?Name ?Abbreviation
@@ -254,37 +372,55 @@ GROUP BY ?Name ?Abbreviation
 
 \newpage
 \section{Language}
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?country ?language
+WHERE {
+    ?country rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations.
+    {
+        ?country dbo:language ?language .
+    } UNION {
+        ?country dbo:officialLanguage ?language .
+    }
+}
+\end{verbatim}}
+
+Some countries have a language (e.g. Malaysia) property whilst some have an officialLanguage (e.g. South Africa) property. 
+
 
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
 PREFIX dcterms: <http://purl.org/dc/terms/>
-SELECT DISTINCT ?Country ?Name
-((SAMPLE(?LSpeakers) / ?Population) * 100) AS ?Percentage
+SELECT DISTINCT ?Country ?Language
+    ((SAMPLE(?LSpeakers) / ?Population) * 100) AS ?Percentage
 WHERE {
     ?country rdf:type dbo:Country ;
         dcterms:subject dbc:Member_states_of_the_United_Nations ;
         rdfs:label ?countryName .
-
-    OPTIONAL { ?country dbo:populationTotal ?population . }
-
+    OPTIONAL{?country dbo:iso31661Code ?isoCode}
+    OPTIONAL{?country dbo:populationTotal ?population.}
     {
         ?country dbo:language ?language .
         ?language rdfs:label ?languageLabel .
-        OPTIONAL { ?language dbp:speakers ?speakers . }
+        OPTIONAL{?language dbp:speakers ?speakers.}
     } UNION {
         ?country dbo:officialLanguage ?language .
         ?language rdfs:label ?languageLabel .
-        OPTIONAL { ?language dbp:speakers ?speakers . }
+        OPTIONAL{?language dbp:speakers ?speakers.}
     }
-    FILTER (lang(?languageLabel) = "en")
-    FILTER (lang(?countryName) = "en")
-    FILTER (datatype(?speakers) = xsd:integer || datatype(?speakers) = xsd:decimal)
-    BIND(STR(?countryName) AS ?Country)
-    BIND(STR(?languageLabel) AS ?Name)
+    FILTER(lang(?languageLabel) = "en")
+    FILTER(lang(?countryName) = "en")
+    FILTER(datatype(?speakers) = xsd:integer || datatype(?speakers) = xsd:decimal)
+    BIND(COALESCE(STR(?isoCode), STR(?countryName)) AS ?Country)
+    BIND(STR(?languageLabel) AS ?Language)
     BIND(xsd:integer(?population) AS ?Population)
     BIND(xsd:integer(?speakers) AS ?LSpeakers)
 }
-GROUP BY ?Country ?Name ?Population
+GROUP BY ?Country ?Language ?Population
 \end{verbatim}}
+
+\section{Religion}
 
 \end{document}

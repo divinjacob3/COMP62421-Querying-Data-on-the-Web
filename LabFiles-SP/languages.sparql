@@ -1,0 +1,26 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Country ?Language SAMPLE(?LSpeakers) AS ?Speakers ?Population
+((SAMPLE(?LSpeakers) / ?Population) * 100) AS ?Percentage
+WHERE {
+?country rdf:type dbo:Country ;
+dcterms:subject dbc:Member_states_of_the_United_Nations ;
+rdfs:label ?countryName .
+OPTIONAL { ?country dbo:populationTotal ?population . }
+{
+?country dbo:language ?language .
+?language rdfs:label ?languageLabel .
+OPTIONAL { ?language dbp:speakers ?speakers . }
+} UNION {
+?country dbo:officialLanguage ?language .
+?language rdfs:label ?languageLabel .
+OPTIONAL { ?language dbp:speakers ?speakers . }
+}
+FILTER (lang(?languageLabel) = "en")
+FILTER (lang(?countryName) = "en")
+FILTER (datatype(?speakers) = xsd:integer || datatype(?speakers) = xsd:decimal)
+BIND(STR(?countryName) AS ?Country)
+BIND(STR(?languageLabel) AS ?Language)
+BIND(xsd:integer(?population) AS ?Population)
+BIND(xsd:integer(?speakers) AS ?LSpeakers)
+}
+GROUP BY ?Country ?Language ?Population
