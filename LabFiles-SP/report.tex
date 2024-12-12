@@ -1,0 +1,290 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[left=3cm, right=3cm]{geometry}
+\usepackage{titling}
+
+\setlength{\droptitle}{-5em}
+
+\begin{document}
+
+\title{\LARGE{\textbf{SPARQL Lab Report}}\vspace{-2em}}
+\date{}
+\maketitle
+
+
+
+\setlength{\parindent}{0pt}
+
+\section*{Timesheet}
+
+\begin{longtable}{|p{4cm}|p{4.5cm}|p{6cm}|}
+    \hline
+    \textbf{Task} & \textbf{Time Spent (hh:mm)} & \textbf{Comments} \\ 
+    \hline
+    \endfirsthead
+    
+    \hline
+    \textbf{Task} & \textbf{Time Spent (hh:mm)} & \textbf{Comments} \\ 
+    \hline
+    \endhead
+
+    Exploring and retrieving predicates for continents & 00:45 & 
+        - There were multiple instances of the same continent, but with different names \newline
+        - Area was missing for some of them
+    \\
+    \hline
+
+    Exploring and retrieving predicates for countries & 02:00 & 
+        - Had many former countries, and unrecognised states \newline
+        - Faced issues with namespaces
+        - 
+    \\
+    \hline
+\end{longtable}
+
+\section{Continent}
+
+\subsection{Exploration}
+
+{\footnotesize\begin{verbatim}
+SELECT DISTINCT ?continent
+WHERE {
+    ?continent rdf:type dbo:Continent.
+    ?continent rdfs:label ?continentN.
+    FILTER (lang(?continentN) = "en")
+    BIND(REPLACE(?continentN, "@en", "" ) AS ?cName)
+    FILTER(?cName in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
+}
+\end{verbatim}}
+
+\subsection{Retrieval}
+
+{\footnotesize\begin{verbatim}
+SELECT DISTINCT ?Name ?Area
+WHERE {
+    ?continent rdf:type dbo:Continent.
+    ?continent rdfs:label ?continentN.
+    FILTER(lang(?continentN) = "en")
+    BIND(REPLACE(?continentN, "@en", "" ) AS ?Name)
+    FILTER(?Name in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
+    OPTIONAL{?continent dbo:areaTotal ?AreaTotal}
+    BIND(?AreaTotal / 1000000 AS ?Area)
+}
+\end{verbatim}}
+
+
+\section{Country}
+
+\subsection{Retrieval}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT 
+    ?Name
+    ?Name AS ?Code
+    (SAMPLE(?capitalCity) AS ?Capital)
+    (SAMPLE(?ProvinceValue) AS ?Province)
+    (xsd:integer(COALESCE(?cPop, ?popEst, ?popCen)) AS ?Population)
+    (xsd:integer(SAMPLE(?cArea) / 1000) AS ?Area)
+WHERE {
+    ?country rdf:type dbo:Country. 
+    ?country dcterms:subject dbc:Member_states_of_the_United_Nations. 
+    ?country rdfs:label ?countryN. 
+    FILTER(lang(?countryN) = "en")
+    BIND(REPLACE(?countryN, "@en", "") AS ?Name)
+    FILTER(?Name != "Member states of the United Nations")
+    OPTIONAL{?country dbo:populationTotal ?cPop}
+    OPTIONAL{?country dbp:populationEstimate ?popEst}
+    OPTIONAL{?country dbp:populationCensus ?popCen}
+    OPTIONAL{?country dbo:area ?cArea}
+    OPTIONAL{ 
+        ?country dbo:capital ?capitalC.
+        ?capitalC rdfs:label ?capitalCN. 
+        FILTER(lang(?capitalCN) = "en")
+        BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+        OPTIONAL{ 
+            ?capitalC dbo:subdivision ?capitalSubdivisionEntity.
+            ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN.
+            FILTER(lang(?capitalSubdivisionN) = "en")
+            BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)}
+    }
+    OPTIONAL { 
+        ?country dbp:capital ?capitalC2.
+        ?capitalC2 rdfs:label ?capitalCN2. 
+        FILTER(lang(?capitalCN2) = "en")
+        BIND(REPLACE(?capitalCN2, "@en", "") AS ?capitalCity)
+        OPTIONAL { 
+            ?capitalC2 dbo:subdivision ?capitalSubdivisionEntity2.
+            ?capitalSubdivisionEntity2 rdfs:label ?capitalSubdivisionN2.
+            FILTER(lang(?capitalSubdivisionN2) = "en")
+            BIND(REPLACE(?capitalSubdivisionN2, "@en", "") AS ?capitalSubdivision)}
+    }
+    BIND(COALESCE(?capitalSubdivision, ?Name) AS ?ProvinceValue)
+}
+GROUP BY ?Name ?cPop ?popEst ?popCen
+    
+\end{verbatim}}
+
+\section{City}
+
+\subsection{Retrieval}
+
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Name ?Country SAMPLE(?ProvinceValue) AS ?Province
+?Population SAMPLE(?Lat) AS ?Latitude
+SAMPLE(?Long) AS ?Longitude SAMPLE(?Elev) AS ?Elevation
+WHERE {
+    ?countryN rdf:type dbo:Country;
+        dcterms:subject dbc:Member_states_of_the_United_Nations;
+        rdfs:label ?countryLbl.
+    ?cityN rdf:type schema:City;
+        dbo:country ?countryN;
+        rdfs:label ?cityLbl.
+    FILTER(lang(?countryLbl) = "en" && lang(?cityLbl) = "en")
+    BIND(REPLACE(?countryLbl, "@en", "") AS ?Country)
+    BIND(REPLACE(?cityLbl, "@en", "") AS ?Name)
+    OPTIONAL{ 
+        ?cityN dbo:subdivision ?subDiv.
+        ?subDiv rdfs:label ?subDivLbl .
+        FILTER(lang(?subDivLbl) = "en")
+        BIND(REPLACE(?subDivLbl, "@en", "") AS ?citySubDiv)}
+    BIND(COALESCE(?citySubDiv, ?Country) AS ?ProvinceValue)
+    OPTIONAL{?cityN geo:lat ?Lat}
+    OPTIONAL{?cityN geo:long ?Long}
+    OPTIONAL{?cityN dbp:elevationM ?Elev}
+    OPTIONAL{?cityN dbp:populationTotal ?Population}
+}
+GROUP BY ?Country ?Name ?Population
+\end{verbatim}}
+
+\section{Province}
+\subsection{Retrieval}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Name ?Country xsd:integer(?population) AS ?Population 
+    xsd:integer(SAMPLE(?totalArea) / 1000) AS ?Area ?Capital ?Name AS ?CapProv
+WHERE {
+    ?countryP rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations ;
+        rdfs:label ?countryName .
+
+    ?region a dbo:AdministrativeRegion ;
+        dbo:country ?countryP ;
+        rdfs:label ?regionName .
+
+    FILTER NOT EXISTS {
+    FILTER (CONTAINS(LCASE(?regionName), "archdiocese") || 
+        CONTAINS(LCASE(?regionName), "diocese"))
+    }
+
+    OPTIONAL { ?region dbo:areaTotal ?totalArea }
+    OPTIONAL { ?region dbo:populationTotal ?population }
+
+    OPTIONAL{ ?region dbo:capital ?capitalCity .
+        ?capitalCity rdfs:label ?capitalLabel .
+        FILTER (lang(?capitalLabel) = "en")}
+    OPTIONAL { ?region dbo:largestCity ?largestCity .
+        ?largestCity rdfs:label ?largestCityLabel .
+        FILTER (lang(?largestCityLabel) = "en") }
+
+    FILTER (lang(?countryName) = "en" && lang(?regionName) = "en")
+
+    BIND(STR(?countryName) AS ?Country)
+    BIND(STR(?regionName) AS ?Name)
+    BIND(COALESCE(STR(?capitalLabel), STR(?largestCityLabel)) AS ?Capital)
+}
+GROUP BY ?Name ?Country ?population ?Capital
+\end{verbatim}}
+
+\section{Organization}
+
+\subsection{Retrieval}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Abbreviation ?Name
+    SAMPLE(?HQCity) AS ?City SAMPLE(?HQCountry) AS ?Country
+    SAMPLE(?HQProvince) AS ?Province SAMPLE(?Established) AS ?Established
+WHERE {
+    ?org rdf:type dbo:Organisation ;
+        rdfs:label ?orgName .
+    ?org dcterms:subject ?category .
+    FILTER(?category IN (
+            dbc:Political_organizations, dbc:International_political_organizations,
+            dbc:Economic_organizations, dbc:Trade_associations,
+            dbc:Intergovernmental_organizations, dbc:International_economic_organizations,
+            dbc:United_Nations))
+    FILTER NOT EXISTS{
+        ?org dcterms:subject ?excludeCategory .
+        ?excludeCategory rdfs:label ?excludeLabel .
+        FILTER (CONTAINS(LCASE(?excludeLabel), "school") || 
+            CONTAINS(LCASE(?excludeLabel), "club"))}
+    OPTIONAL { ?org dbp:abbreviation ?abbreviation . }
+    OPTIONAL { ?org dbp:nickname ?nickname . }
+    OPTIONAL { ?org dbp:establishedDate ?establishedDate. }
+    OPTIONAL {?org dbp:formation ?formation .}
+    OPTIONAL { ?org dbo:foundingYear ?established . }
+    OPTIONAL { ?org dbo:headquarter ?hq . 
+        OPTIONAL { 
+            ?hq rdf:type dbo:City .
+            ?hq rdfs:label ?hqLabel . FILTER (lang(?hqLabel) = "en")
+            OPTIONAL { ?hq dbo:country ?hqCountry .
+                ?hqCountry rdfs:label ?hqCountryName .
+                FILTER (lang(?hqCountryName) = "en") }
+            OPTIONAL { ?hq dbo:subdivision ?hqRegion .
+                ?hqRegion rdfs:label ?hqRegionName .
+                FILTER (lang(?hqRegionName) = "en") }
+            OPTIONAL { ?hq rdfs:label ?hqCityName .
+                FILTER (lang(?hqCityName) = "en") }}    
+        OPTIONAL {
+            ?hq rdf:type dbo:Country .
+            ?hq rdfs:label ?hqCountryName .
+            FILTER (lang(?hqCountryName) = "en")}}
+    FILTER (lang(?orgName) = "en")
+    BIND(STR(?orgName) AS ?Name)
+    BIND(COALESCE(STR(?abbreviation), STR(?nickname)) AS ?Abbreviation)
+    BIND(COALESCE(STR(?hqCityName)) AS ?HQCity)
+    BIND(COALESCE(STR(?hqRegionName)) AS ?HQProvince)
+    BIND(COALESCE(STR(?hqCountryName), STR(?hqLabel)) AS ?HQCountry)
+    BIND(COALESCE(STR(?establishedDate), STR(?formation), STR(?established)) AS ?Established)
+}
+GROUP BY ?Name ?Abbreviation
+\end{verbatim}}
+
+\newpage
+\section{Language}
+
+\subsection{Retrieval}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Country ?Name
+((SAMPLE(?LSpeakers) / ?Population) * 100) AS ?Percentage
+WHERE {
+    ?country rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations ;
+        rdfs:label ?countryName .
+
+    OPTIONAL { ?country dbo:populationTotal ?population . }
+
+    {
+        ?country dbo:language ?language .
+        ?language rdfs:label ?languageLabel .
+        OPTIONAL { ?language dbp:speakers ?speakers . }
+    } UNION {
+        ?country dbo:officialLanguage ?language .
+        ?language rdfs:label ?languageLabel .
+        OPTIONAL { ?language dbp:speakers ?speakers . }
+    }
+    FILTER (lang(?languageLabel) = "en")
+    FILTER (lang(?countryName) = "en")
+    FILTER (datatype(?speakers) = xsd:integer || datatype(?speakers) = xsd:decimal)
+    BIND(STR(?countryName) AS ?Country)
+    BIND(STR(?languageLabel) AS ?Name)
+    BIND(xsd:integer(?population) AS ?Population)
+    BIND(xsd:integer(?speakers) AS ?LSpeakers)
+}
+GROUP BY ?Country ?Name ?Population
+\end{verbatim}}
+
+\end{document}

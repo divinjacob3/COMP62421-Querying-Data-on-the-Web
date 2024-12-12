@@ -1,0 +1,44 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?continent
+WHERE {
+  ?continent dcterms:subject dbc:Continents .
+  ?continent rdf:type dbo:Continent .
+  ?continent rdfs:label ?continentN .
+  FILTER (lang(?continentN) = "en")
+  BIND( REPLACE( ?continentN, '@en', '' ) AS ?continentName)
+  FILTER(?continentName in ("Antarctica", "North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
+}
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?Name ?Area
+WHERE {
+  ?continent dcterms:subject dbc:Continents .
+  ?continent rdf:type dbo:Continent .
+  ?continent rdfs:label ?continentN .
+  FILTER (lang(?continentN) = "en")
+  BIND( REPLACE( ?continentN, '@en', '' ) AS ?Name)
+  FILTER(?Name in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
+  OPTIONAL{ ?continent dbo:areaTotal ?AreaTotal }
+  BIND(?AreaTotal / 1000000 AS ?Area)
+}
+
+
+SELECT DISTINCT ?Name SUM(?Area) AS ?Area
+WHERE {
+  ?continent rdf:type dbo:Continent .
+  ?continent rdfs:label ?continentN .
+  FILTER (lang(?continentN) = "en")
+  BIND(REPLACE(?continentN, "@en", "" ) AS ?OriginalName)  
+  BIND(
+    IF(?OriginalName IN ("North America", "South America"), "America",
+      IF(?OriginalName = "Oceania", "Australia/Oceania", ?OriginalName)
+    ) AS ?Name
+  )
+  FILTER(?Name IN ("America", "Australia/Oceania", "Asia", "Europe", "Africa"))
+  OPTIONAL { ?continent dbo:areaTotal ?AreaTotal }
+  BIND(?AreaTotal / 1000000 AS ?Area)
+}
+GROUP BY ?Name
+ORDER BY ?Name

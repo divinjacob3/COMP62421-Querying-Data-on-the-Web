@@ -1,0 +1,164 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?country
+WHERE {
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN .
+  FILTER (lang(?countryN) = "en")
+  BIND( REPLACE( ?countryN, "@en", "" ) AS ?countryName)
+}
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT 
+  ?Name
+  (SAMPLE(?capitalCity) AS ?Capital)
+  (xsd:integer(COALESCE(?cPop, ?popEst, ?popCen)) AS ?Population)
+  (xsd:integer(SAMPLE(?cArea) / 1000) AS ?Area)
+WHERE {
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN . 
+  FILTER (lang(?countryN) = "en")
+  BIND(REPLACE(?countryN, "@en", "") AS ?Name)
+  FILTER(?Name != "Member states of the United Nations")
+  
+  OPTIONAL { ?country dbo:populationTotal ?cPop }
+  OPTIONAL { ?country dbp:populationEstimate ?popEst }
+  OPTIONAL { ?country dbp:populationCensus ?popCen }
+  OPTIONAL { ?country dbo:area ?cArea }
+  OPTIONAL { ?country dbp:populationDensityKm ?popDensity }
+  OPTIONAL { ?country dbo:capital ?capitalC.
+       ?capitalC rdfs:label ?capitalCN . 
+       FILTER (lang(?capitalCN) = "en")
+       BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+  }
+  OPTIONAL { ?country dbp:capital ?capitalC.
+       ?capitalC rdfs:label ?capitalCN . 
+       FILTER (lang(?capitalCN) = "en")
+       BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+  }
+}
+GROUP BY ?Name ?cPop ?popEst ?popCen
+
+
+
+
+
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+
+SELECT DISTINCT 
+  ?Name
+  (SAMPLE(?capitalCity) AS ?Capital)
+  (SAMPLE(?capitalSubdivision) AS ?Province)
+  (xsd:integer(COALESCE(?cPop, ?popEst, ?popCen)) AS ?Population)
+  (xsd:integer(SAMPLE(?cArea) / 1000) AS ?Area)
+WHERE {
+  # Country entity
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN . 
+  FILTER (lang(?countryN) = "en")
+  BIND(REPLACE(?countryN, "@en", "") AS ?Name)
+  FILTER(?Name != "Member states of the United Nations")
+  
+  # Population and area information
+  OPTIONAL { ?country dbo:populationTotal ?cPop }
+  OPTIONAL { ?country dbp:populationEstimate ?popEst }
+  OPTIONAL { ?country dbp:populationCensus ?popCen }
+  OPTIONAL { ?country dbo:area ?cArea }
+  OPTIONAL { ?country dbp:populationDensityKm ?popDensity }
+  
+  # Capital city information
+  OPTIONAL { 
+    ?country dbo:capital ?capitalC .
+    ?capitalC rdfs:label ?capitalCN . 
+    FILTER (lang(?capitalCN) = "en")
+    BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+    
+    # Subdivision/region of the capital city
+    OPTIONAL { 
+      ?capitalC dbo:subdivision ?capitalSubdivisionEntity .
+      ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN .
+      FILTER (lang(?capitalSubdivisionN) = "en")
+      BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)
+    }
+  }
+  
+  # Also check dbp:capital as a secondary source of capital information
+  OPTIONAL { 
+    ?country dbp:capital ?capitalC2 .
+    ?capitalC2 rdfs:label ?capitalCN2 . 
+    FILTER (lang(?capitalCN2) = "en")
+    BIND(REPLACE(?capitalCN2, "@en", "") AS ?capitalCity)
+    
+    # Subdivision/region of the capital city
+    OPTIONAL { 
+      ?capitalC2 dbo:subdivision ?capitalSubdivisionEntity2 .
+      ?capitalSubdivisionEntity2 rdfs:label ?capitalSubdivisionN2 .
+      FILTER (lang(?capitalSubdivisionN2) = "en")
+      BIND(REPLACE(?capitalSubdivisionN2, "@en", "") AS ?capitalSubdivision)
+    }
+  }
+}
+GROUP BY ?Name ?cPop ?popEst ?popCen
+
+
+
+
+
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT 
+  ?Name
+  ?Name AS ?Code
+  (SAMPLE(?capitalCity) AS ?Capital)
+  (SAMPLE(?ProvinceValue) AS ?Province)
+  (xsd:integer(COALESCE(?cPop, ?popEst, ?popCen)) AS ?Population)
+  (xsd:integer(SAMPLE(?cArea) / 1000) AS ?Area)
+WHERE {
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN . 
+  FILTER (lang(?countryN) = "en")
+  BIND(REPLACE(?countryN, "@en", "") AS ?Name)
+  FILTER(?Name != "Member states of the United Nations")
+  OPTIONAL { ?country dbo:populationTotal ?cPop }
+  OPTIONAL { ?country dbp:populationEstimate ?popEst }
+  OPTIONAL { ?country dbp:populationCensus ?popCen }
+  OPTIONAL { ?country dbo:area ?cArea }
+  OPTIONAL { 
+    ?country dbo:capital ?capitalC .
+    ?capitalC rdfs:label ?capitalCN . 
+    FILTER (lang(?capitalCN) = "en")
+    BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+    OPTIONAL { 
+      ?capitalC dbo:subdivision ?capitalSubdivisionEntity .
+      ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN .
+      FILTER (lang(?capitalSubdivisionN) = "en")
+      BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)
+    }
+  }
+  OPTIONAL { 
+    ?country dbp:capital ?capitalC2 .
+    ?capitalC2 rdfs:label ?capitalCN2 . 
+    FILTER (lang(?capitalCN2) = "en")
+    BIND(REPLACE(?capitalCN2, "@en", "") AS ?capitalCity)
+    OPTIONAL { 
+      ?capitalC2 dbo:subdivision ?capitalSubdivisionEntity2 .
+      ?capitalSubdivisionEntity2 rdfs:label ?capitalSubdivisionN2 .
+      FILTER (lang(?capitalSubdivisionN2) = "en")
+      BIND(REPLACE(?capitalSubdivisionN2, "@en", "") AS ?capitalSubdivision)
+    }
+  }
+  BIND(COALESCE(?capitalSubdivision, ?Name) AS ?ProvinceValue)
+}
+GROUP BY ?Name ?cPop ?popEst ?popCen

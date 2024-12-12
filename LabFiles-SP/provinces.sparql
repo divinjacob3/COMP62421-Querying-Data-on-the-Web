@@ -1,0 +1,35 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?Name ?Country xsd:integer(?population) AS ?Population 
+    xsd:integer(SAMPLE(?totalArea) / 1000) AS ?Area ?Capital ?Name AS ?CapProv
+WHERE {
+  ?countryP rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations ;
+        rdfs:label ?countryName .
+
+  ?region a dbo:AdministrativeRegion ;
+        dbo:country ?countryP ;
+        rdfs:label ?regionName .
+
+  FILTER NOT EXISTS {
+    FILTER (CONTAINS(LCASE(?regionName), "archdiocese") || 
+        CONTAINS(LCASE(?regionName), "diocese"))
+  }
+
+  OPTIONAL { ?region dbo:areaTotal ?totalArea }
+  OPTIONAL { ?region dbo:populationTotal ?population }
+
+  OPTIONAL{ ?region dbo:capital ?capitalCity .
+      ?capitalCity rdfs:label ?capitalLabel .
+      FILTER (lang(?capitalLabel) = "en")}
+  OPTIONAL { ?region dbo:largestCity ?largestCity .
+      ?largestCity rdfs:label ?largestCityLabel .
+      FILTER (lang(?largestCityLabel) = "en") }
+
+  FILTER (lang(?countryName) = "en" && lang(?regionName) = "en")
+
+  BIND(STR(?countryName) AS ?Country)
+  BIND(STR(?regionName) AS ?Name)
+  BIND(COALESCE(STR(?capitalLabel), STR(?largestCityLabel)) AS ?Capital)
+}
+GROUP BY ?Name ?Country ?population ?Capital

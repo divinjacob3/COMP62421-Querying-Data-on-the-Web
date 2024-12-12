@@ -1,0 +1,60 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?Abbreviation ?Name
+                SAMPLE(?HQCity) AS ?City SAMPLE(?HQCountry) AS ?Country
+                SAMPLE(?HQProvince) AS ?Province SAMPLE(?Established) AS ?Established
+WHERE {
+  ?org rdf:type dbo:Organisation ;
+       rdfs:label ?orgName .
+  ?org dcterms:subject ?category .
+  FILTER (
+    ?category IN (
+      dbc:Political_organizations,
+      dbc:International_political_organizations,
+      dbc:Economic_organizations,
+      dbc:Trade_associations,
+      dbc:Intergovernmental_organizations,
+      dbc:International_economic_organizations,
+      dbc:United_Nations
+    )
+  )
+
+  FILTER NOT EXISTS {
+    ?org dcterms:subject ?excludeCategory .
+    ?excludeCategory rdfs:label ?excludeLabel .
+    FILTER (CONTAINS(LCASE(?excludeLabel), "school") || 
+            CONTAINS(LCASE(?excludeLabel), "club"))
+  }
+
+  OPTIONAL { ?org dbp:abbreviation ?abbreviation . }
+  OPTIONAL { ?org dbp:nickname ?nickname . }
+  OPTIONAL { ?org dbp:establishedDate ?establishedDate. }
+  OPTIONAL {?org dbp:formation ?formation .}
+  OPTIONAL { ?org dbo:foundingYear ?established . }
+
+  OPTIONAL { 
+    ?org dbo:headquarter ?hq . 
+    OPTIONAL { 
+      ?hq rdf:type dbo:City .
+      ?hq rdfs:label ?hqLabel . FILTER (lang(?hqLabel) = "en")
+      OPTIONAL { ?hq dbo:country ?hqCountry . ?hqCountry rdfs:label ?hqCountryName . FILTER (lang(?hqCountryName) = "en") }
+      OPTIONAL { ?hq dbo:subdivision ?hqRegion . ?hqRegion rdfs:label ?hqRegionName . FILTER (lang(?hqRegionName) = "en") }
+      OPTIONAL { ?hq rdfs:label ?hqCityName . FILTER (lang(?hqCityName) = "en") }
+    }
+    
+    OPTIONAL {
+      ?hq rdf:type dbo:Country .
+      ?hq rdfs:label ?hqCountryName . FILTER (lang(?hqCountryName) = "en")
+    }
+  }
+
+  FILTER (lang(?orgName) = "en")
+
+  BIND(STR(?orgName) AS ?Name)
+  BIND(COALESCE(STR(?abbreviation), STR(?nickname)) AS ?Abbreviation)
+  BIND(COALESCE(STR(?hqCityName)) AS ?HQCity)
+  BIND(COALESCE(STR(?hqRegionName)) AS ?HQProvince)
+  BIND(COALESCE(STR(?hqCountryName), STR(?hqLabel)) AS ?HQCountry)
+  BIND(COALESCE(STR(?establishedDate), STR(?formation), STR(?established)) AS ?Established)
+}
+GROUP BY ?Name ?Abbreviation

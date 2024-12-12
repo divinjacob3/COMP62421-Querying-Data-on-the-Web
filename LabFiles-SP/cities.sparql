@@ -1,0 +1,102 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?country, ?city
+WHERE {
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN .
+  FILTER (lang(?countryN) = "en")
+  BIND( REPLACE( ?countryN, '@en', '' ) AS ?countryName)
+  FILTER(?countryName IN ("United Kingdom"))
+
+  ?city rdf:type dbo:City .
+  ?city dbo:country ?country .
+# dbp:totalType "City"@en
+  
+
+}
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?country, ?city
+WHERE {
+  ?country rdf:type dbo:Country . 
+  ?country dcterms:subject dbc:Member_states_of_the_United_Nations . 
+  ?country rdfs:label ?countryN .
+  FILTER (lang(?countryN) = "en")
+  BIND( REPLACE( ?countryN, '@en', '' ) AS ?countryName)
+  FILTER(?countryName IN ("United Kingdom"))
+
+  ?city gold:hypernym dbr:City .
+  ?city dbo:country ?country .
+# dbp:totalType "City"@en
+  
+
+}
+
+
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?CountryN ?CityN ?Latitude ?Longitude ?Elevation
+WHERE {
+  # Get all countries that are member states of the United Nations
+  ?country rdf:type dbo:Country ;
+           dcterms:subject dbc:Member_states_of_the_United_Nations ;
+           rdfs:label ?countryN .
+
+  ?city rdf:type dbo:City ;
+        dbo:country ?country ;
+        rdfs:label ?cityN .
+
+  FILTER (lang(?countryN) = "en" && lang(?cityN) = "en")
+  BIND(REPLACE(?countryN, "@en", "") AS ?CountryN)
+  BIND(REPLACE(?cityN, "@en", "") AS ?CityN)
+
+
+  OPTIONAL{?city geo:lat ?Latitude.}
+  OPTIONAL{?city geo:long ?Longitude.}
+  OPTIONAL {?city dbp:elevationM ?Elevation.}
+}
+ORDER BY ?CountryN ?CityN
+
+
+
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Name ?Country SAMPLE(?ProvinceValue) AS ?Province
+?Population SAMPLE(?Lat) AS ?Latitude
+SAMPLE(?Long) AS ?Longitude SAMPLE(?Elev) AS ?Elevation
+WHERE {
+  ?countryN rdf:type dbo:Country ;
+           dcterms:subject dbc:Member_states_of_the_United_Nations ;
+           rdfs:label ?countryLbl .
+
+  ?cityN rdf:type schema:City ;
+        dbo:country ?countryN ;
+        rdfs:label ?cityLbl .
+
+  FILTER (lang(?countryLbl) = "en" && lang(?cityLbl) = "en")
+  BIND(REPLACE(?countryLbl, "@en", "") AS ?Country)
+  BIND(REPLACE(?cityLbl, "@en", "") AS ?Name)
+
+  OPTIONAL { 
+      ?cityN dbo:subdivision ?subDiv.
+      ?subDiv rdfs:label ?subDivLbl .
+      FILTER (lang(?subDivLbl) = "en")
+      BIND(REPLACE(?subDivLbl, "@en", "") AS ?citySubDiv)
+   }
+  BIND(COALESCE(?citySubDiv, ?Country) AS ?ProvinceValue)
+  OPTIONAL{?cityN geo:lat ?Lat.}
+  OPTIONAL{?cityN geo:long ?Long.}
+  OPTIONAL {?cityN dbp:elevationM ?Elev.}
+  OPTIONAL {?cityN dbp:populationTotal ?Population.}
+}
+GROUP BY ?Country ?Name ?Population
+
