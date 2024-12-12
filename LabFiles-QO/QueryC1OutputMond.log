@@ -1,0 +1,98 @@
+
+SELECT DISTINCT c.Name
+FROM country c
+JOIN city ci ON c.Code = ci.Country
+WHERE ci.Population > 1000000;
+QUERY PLAN
+|--SCAN ci
+|--SEARCH c USING INDEX sqlite_autoindex_Country_2 (Code=?)
+`--USE TEMP B-TREE FOR DISTINCT
+Serbia
+France
+Spain
+Austria
+Czech Republic
+Germany
+Hungary
+Italy
+Belarus
+Poland
+Ukraine
+Russia
+Bulgaria
+Romania
+Turkey
+United Kingdom
+Afghanistan
+China
+Iran
+Pakistan
+Uzbekistan
+Armenia
+Georgia
+Azerbaijan
+Bangladesh
+Myanmar
+India
+Malaysia
+Thailand
+Vietnam
+Kazakhstan
+North Korea
+Hong Kong
+Nepal
+Egypt
+Indonesia
+Iraq
+Jordan
+Saudi Arabia
+Syria
+Lebanon
+Japan
+South Korea
+United Arab Emirates
+Yemen
+Philippines
+Singapore
+Taiwan
+Mexico
+Canada
+United States
+Nicaragua
+Cuba
+Dominican Republic
+Colombia
+Australia
+Argentina
+Bolivia
+Brazil
+Chile
+Uruguay
+Peru
+Venezuela
+Ecuador
+Algeria
+Libya
+Mali
+Morocco
+Niger
+Angola
+Congo
+Zaire
+Zambia
+Burkina Faso
+Nigeria
+South Africa
+Zimbabwe
+Cote dIvoire
+Ghana
+Tanzania
+Cameroon
+Sudan
+Guinea
+Liberia
+Ethiopia
+Kenya
+Senegal
+Uganda
+Mozambique

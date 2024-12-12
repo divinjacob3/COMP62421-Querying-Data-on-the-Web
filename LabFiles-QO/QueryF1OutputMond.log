@@ -1,0 +1,102 @@
+
+SELECT Name
+FROM Country
+WHERE Code IN (
+    SELECT Country
+    FROM City
+    WHERE Population > 1000000
+);
+QUERY PLAN
+|--SEARCH Country USING INDEX sqlite_autoindex_Country_2 (Code=?)
+`--LIST SUBQUERY 1
+   |--SCAN City
+   `--CREATE BLOOM FILTER
+Austria
+Afghanistan
+Angola
+Armenia
+Australia
+Azerbaijan
+Bangladesh
+Burkina Faso
+Bulgaria
+Bolivia
+Brazil
+Belarus
+Cuba
+Cameroon
+Canada
+Cote dIvoire
+China
+Colombia
+Czech Republic
+Germany
+Dominican Republic
+Algeria
+Spain
+Kenya
+Tanzania
+Uganda
+Ecuador
+Egypt
+Ethiopia
+France
+United Kingdom
+Georgia
+Ghana
+Hungary
+Hong Kong
+Italy
+India
+Iran
+Iraq
+Japan
+Jordan
+Kazakhstan
+Libya
+Liberia
+Morocco
+Malaysia
+Mexico
+Mozambique
+Myanmar
+Nepal
+Nicaragua
+North Korea
+Peru
+Pakistan
+Poland
+Russia
+Argentina
+Taiwan
+Congo
+Chile
+Guinea
+Indonesia
+Lebanon
+Mali
+Niger
+Romania
+South Korea
+Uruguay
+Philippines
+South Africa
+Saudi Arabia
+Singapore
+Senegal
+Serbia
+Sudan
+Syria
+Thailand
+Turkey
+Ukraine
+United Arab Emirates
+United States
+Uzbekistan
+Vietnam
+Nigeria
+Yemen
+Venezuela
+Zambia
+Zaire
+Zimbabwe

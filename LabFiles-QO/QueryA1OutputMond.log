@@ -1,0 +1,18 @@
+
+/* CREATE INDEX CountryCodeIndex ON Country(Code);
+CREATE INDEX CityPopulationIndex ON City(Population);
+CREATE INDEX EncompassesCountryIndex ON encompasses(country);
+CREATE INDEX LanguageCountryIndex ON Language(country); */
+SELECT c.Name AS country, ci.Name AS city, ci.Population
+FROM Country c
+JOIN City ci ON ci.Country = c.Code
+JOIN encompasses e ON e.country = c.Name
+JOIN Language l on l.country = c.Name
+WHERE ci.Population > 1000000
+ORDER BY ci.Population DESC;
+QUERY PLAN
+|--SEARCH ci USING INDEX CityPopulationIndex (Population>?)
+|--SEARCH c USING INDEX sqlite_autoindex_Country_2 (Code=?)
+|--SEARCH e USING COVERING INDEX EncompassesCountryIndex (Country=?)
+`--SEARCH l USING COVERING INDEX LanguageCountryIndex (Country=?)
+

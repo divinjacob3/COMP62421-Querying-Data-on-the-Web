@@ -1,0 +1,86 @@
+
+SELECT Country.Name AS Country, City.Name AS CapitalCity,
+    City.Population AS CapitalPopulation, Continent.Name AS Continent
+FROM City
+CROSS JOIN encompasses
+CROSS JOIN Continent
+CROSS JOIN Country
+WHERE Continent.Area > 30000000 AND Country.Population > 10000000
+    AND encompasses.Country = Country.Code AND encompasses.Continent = Continent.Name
+    AND City.Name = Country.Capital AND City.country = Country.Code;
+QUERY PLAN
+|--SCAN City
+|--SEARCH encompasses USING COVERING INDEX sqlite_autoindex_encompasses_1 (Country=?)
+|--BLOOM FILTER ON Continent (Name=?)
+|--SEARCH Continent USING INDEX sqlite_autoindex_Continent_1 (Name=?)
+|--BLOOM FILTER ON Country (Code=?)
+`--SEARCH Country USING INDEX sqlite_autoindex_Country_2 (Code=?)
+Russia|Moskva|11979529|Asia
+Turkey|Ankara|4630735|Asia
+Afghanistan|Kabul|2435400|Asia
+China|Beijing|11716620|Asia
+Iran|Tehran|8154051|Asia
+Pakistan|Islamabad|529180|Asia
+Uzbekistan|Toshkent|2352900|Asia
+Bangladesh|Dhaka|7423137|Asia
+Myanmar|Nay Pyi Taw|1158367|Asia
+India|Delhi|11034555|Asia
+Malaysia|Kuala Lumpur|1297526|Asia
+Thailand|Bangkok|7506700|Asia
+Cambodia|Phnom Penh|703963|Asia
+Vietnam|Hanoi|2644536|Asia
+Kazakhstan|Astana|814401|Asia
+North Korea|Pyongyang|3255288|Asia
+Nepal|Kathmandu|1003285|Asia
+Egypt|Al Qahirah|8471859|Africa
+Egypt|Al Qahirah|8471859|Asia
+Indonesia|Jakarta|9607787|Asia
+Iraq|Baghdad|5750000|Asia
+Saudi Arabia|Riyadh|4087152|Asia
+Syria|Dimashq|1552161|Asia
+Japan|Tokyo|8591695|Asia
+South Korea|Seoul|9708483|Asia
+Yemen|Sanaa|1527861|Asia
+Philippines|Manila|1660714|Asia
+Sri Lanka|Sri Jayawardhanapura Kotte|116366|Asia
+Taiwan|Taipei|2673226|Asia
+Guatemala|Ciudad de Guatemala|992541|America
+Mexico|Ciudad de Mexico|8555272|America
+Canada|Ottawa|883391|America
+United States|Washington|646449|America
+Cuba|La Habana|2141993|America
+Colombia|Bogota|7776845|America
+Argentina|Buenos Aires|2768772|America
+Bolivia|La Paz|764617|America
+Brazil|Brasilia|2482210|America
+Chile|Santiago|4659048|America
+Peru|Lima|7605742|America
+Venezuela|Caracas|1975786|America
+Ecuador|Quito|1619146|America
+Algeria|Algiers|2364230|Africa
+Mali|Bamako|1809106|Africa
+Morocco|Rabat|621480|Africa
+Niger|Niamey|1026848|Africa
+Tunisia|Tunis|651284|Africa
+Angola|Luanda|5000000|Africa
+Zaire|Kinshasa|4655313|Africa
+Zambia|Lusaka|1269848|Africa
+Burkina Faso|Ouagadougou|1475223|Africa
+Nigeria|Abuja|776298|Africa
+South Africa|Tshwane|2921488|Africa
+Zimbabwe|Harare|1485231|Africa
+Cote dIvoire|Yamoussoukro|207412|Africa
+Ghana|Accra|2070463|Africa
+Rwanda|Kigali|603049|Africa
+Tanzania|Dodoma|410956|Africa
+Cameroon|Yaounde|1817524|Africa
+Chad|NDjamena|951418|Africa
+Sudan|Khartoum|947483|Africa
+Guinea|Conakry|1667864|Africa
+Ethiopia|Addis Ababa|3040740|Africa
+Kenya|Nairobi|3133518|Africa
+Senegal|Dakar|1121935|Africa
+Uganda|Kampala|1516210|Africa
+Madagascar|Antananarivo|710236|Africa
+Malawi|Lilongwe|674448|Africa
+Mozambique|Maputo|1094628|Africa

@@ -1,0 +1,341 @@
+
+SELECT c.Name AS country, ci.Name AS city
+FROM Country c
+JOIN City ci ON CAST(ci.Country AS TEXT) = CAST(c.Code AS TEXT)
+WHERE ci.Population > 1000000;
+QUERY PLAN
+|--SCAN ci
+`--SCAN c
+Serbia|Beograd
+France|Paris
+Spain|Barcelona
+Spain|Madrid
+Austria|Wien
+Czech Republic|Praha
+Germany|Munchen
+Germany|Berlin
+Germany|Hamburg
+Germany|Koln
+Hungary|Budapest
+Italy|Milano
+Italy|Roma
+Belarus|Minsk
+Poland|Warszawa
+Ukraine|Kharkiv
+Ukraine|Odesa
+Ukraine|Kyiv
+Russia|Sankt Peterburg
+Russia|Moskva
+Russia|Nizhnii Novgorod
+Russia|Voronezh
+Russia|Kazan
+Russia|Volgograd
+Russia|Samara
+Russia|Rostov-na-Donu
+Russia|Ufa
+Russia|Perm
+Russia|Yekaterinburg
+Russia|Chelyabinsk
+Russia|Novosibirsk
+Russia|Omsk
+Russia|Krasnoyarsk
+Bulgaria|Sofia
+Romania|Bucuresti
+Turkey|Adana
+Turkey|Ankara
+Turkey|Antalya
+Turkey|Bursa
+Turkey|Gaziantep
+Turkey|Istanbul
+Turkey|Izmir
+Turkey|Kayseri
+Turkey|Kocaeli
+Turkey|Konya
+United Kingdom|Birmingham
+United Kingdom|London
+Afghanistan|Kabul
+China|Hefei
+China|Huainan
+China|Fuzhou
+China|Xiamen
+China|Lanzhou
+China|Guangzhou
+China|Shantou
+China|Shenzhen
+China|Dongguan
+China|Foshan
+China|Zhongshan
+China|Huizhou
+China|Guiyang
+China|Shijiazhuang
+China|Tangshan
+China|Handan
+China|Harbin
+China|Qiqihar
+China|Zhengzhou
+China|Luoyang
+China|Wuhan
+China|Changsha
+China|Nanjing
+China|Wuxi
+China|Xuzhou
+China|Suzhou
+China|Changzhou
+China|Nantong
+China|Huaian
+China|Nanchang
+China|Fuzhou
+China|Jilin
+China|Changchun
+China|Shenyang
+China|Dalian
+China|Anshan
+China|Fushun
+China|Xian
+China|Jinan
+China|Zibo
+China|Qingdao
+China|Yantai
+China|Weifang
+China|Zaozhuang
+China|Linyi
+China|Taiyuan
+China|Datong
+China|Chengdu
+China|Kunming
+China|Hangzhou
+China|Ningbo
+China|Wenzhou
+China|Nanning
+China|Baotou
+China|Wulumuqi
+China|Beijing
+China|Shanghai
+China|Tianjin
+China|Chongqing
+Iran|Tabriz
+Iran|Esfahan
+Iran|Shiraz
+Iran|Mashhad
+Iran|Ahvaz
+Iran|Tehran
+Iran|Karaj
+Iran|Qom
+Pakistan|Lahore
+Pakistan|Faisalabad
+Pakistan|Gujranwala
+Pakistan|Rawalpindi
+Pakistan|Multan
+Pakistan|Karachi
+Pakistan|Hyderabad
+Uzbekistan|Toshkent
+Armenia|Yerevan
+Georgia|Tbilisi
+Azerbaijan|Baku
+Bangladesh|Chittagong
+Bangladesh|Dhaka
+Myanmar|Mandalay
+Myanmar|Yangon
+Myanmar|Nay Pyi Taw
+India|Visakhapatnam
+India|Vijayawada
+India|Patna
+India|Ahmadabad
+India|Surat
+India|Vadodara
+India|Rajkot
+India|Srinagar
+India|Bangalore
+India|Bhopal
+India|Indore
+India|Jabalpur
+India|Gwalior
+India|Mumbai
+India|Nagpur
+India|Pune
+India|Kalyan
+India|Thane
+India|Nashik
+India|Aurangabad
+India|Pimpri Chinchwad
+India|Ludhiana
+India|Amritsar
+India|Jaipur
+India|Jodhpur
+India|Kota
+India|Chennai
+India|Madurai
+India|Coimbatore
+India|Lucknow
+India|Kanpur
+India|Varanasi
+India|Agra
+India|Allahabad
+India|Meerut
+India|Faridabad
+India|Kolkata
+India|Haora
+India|Delhi
+India|Ghaziabad
+India|Raipur
+India|Ranchi
+India|Hyderabad
+Malaysia|Kuala Lumpur
+Thailand|Bangkok
+Vietnam|Hanoi
+Vietnam|Ho Chi Minh
+Kazakhstan|Almaty
+North Korea|Pyongyang
+Hong Kong|Hong Kong
+Nepal|Kathmandu
+Egypt|Shubra al Khimah
+Egypt|Al Jizah
+Egypt|Al Iskandariyah
+Egypt|Al Qahirah
+Indonesia|Medan
+Indonesia|Palembang
+Indonesia|Jakarta
+Indonesia|Bandung
+Indonesia|Bekasi
+Indonesia|Depok
+Indonesia|Semarang
+Indonesia|Surabaya
+Indonesia|Tangerang
+Indonesia|Tangerang Selatan
+Indonesia|Makassar
+Iraq|Baghdad
+Iraq|Al Basrah
+Iraq|Al Mawsil
+Jordan|Amman
+Saudi Arabia|Riyadh
+Saudi Arabia|Makkah
+Saudi Arabia|Jeddah
+Syria|Dimashq
+Syria|Halab
+Lebanon|Bayrut
+Japan|Sapporo
+Japan|Sendai
+Japan|Saitama
+Japan|Tokyo
+Japan|Yokohama
+Japan|Kawasaki
+Japan|Nagoya
+Japan|Kyoto
+Japan|Osaka
+Japan|Kobe
+Japan|Hiroshima
+Japan|Fukuoka
+South Korea|Seoul
+South Korea|Busan
+South Korea|Daegu
+South Korea|Incheon
+South Korea|Gwangju
+South Korea|Daejeon
+South Korea|Ulsan
+South Korea|Suwon
+South Korea|Changwon
+United Arab Emirates|Dubai
+Yemen|Sanaa
+Philippines|Davao
+Philippines|Manila
+Philippines|Quezon City
+Philippines|Kalookan
+Singapore|Singapore
+Taiwan|Taipei
+Taiwan|New Taipei
+Taiwan|Kaohsiung
+Taiwan|Taichung
+Taiwan|Tainan
+Mexico|Tijuana
+Mexico|Ciudad Juarez
+Mexico|Leon
+Mexico|Guadalajara
+Mexico|Zapopan
+Mexico|Nezahualcoyotl
+Mexico|Ecatepec
+Mexico|Monterrey
+Mexico|Puebla
+Mexico|Ciudad de Mexico
+Canada|Calgary
+Canada|Toronto
+Canada|Montreal
+United States|Phoenix
+United States|Los Angeles
+United States|San Diego
+United States|Chicago
+United States|New York
+United States|Philadelphia
+United States|Houston
+United States|San Antonio
+United States|Dallas
+Nicaragua|Managua
+Cuba|La Habana
+Dominican Republic|Santo Domingo
+Colombia|Medellin
+Colombia|Barranquilla
+Colombia|Bogota
+Colombia|Cali
+Australia|Sydney
+Australia|Brisbane
+Australia|Adelaide
+Australia|Melbourne
+Australia|Perth
+Argentina|San Justo
+Argentina|Cordoba
+Argentina|Buenos Aires
+Bolivia|Santa Cruz de la Sierra
+Brazil|Manaus
+Brazil|Salvador
+Brazil|Fortaleza
+Brazil|Goiania
+Brazil|Belo Horizonte
+Brazil|Belem
+Brazil|Curitiba
+Brazil|Recife
+Brazil|Rio de Janeiro
+Brazil|Porto Alegre
+Brazil|Sao Paulo
+Brazil|Guarulhos
+Brazil|Campinas
+Brazil|Brasilia
+Chile|Santiago
+Uruguay|Montevideo
+Peru|Lima
+Venezuela|Maracaibo
+Venezuela|Caracas
+Ecuador|Quito
+Ecuador|Guayaquil
+Algeria|Algiers
+Libya|Tripoli
+Mali|Bamako
+Morocco|Casablanca
+Niger|Niamey
+Angola|Luanda
+Congo|Brazzaville
+Zaire|Kinshasa
+Zambia|Lusaka
+Burkina Faso|Ouagadougou
+Nigeria|Kano
+Nigeria|Lagos
+Nigeria|Ibadan
+South Africa|Nelson Mandela Bay
+South Africa|Tshwane
+South Africa|Johannesburg
+South Africa|Ekurhuleni - Germiston
+South Africa|eThekwini
+South Africa|Cape Town
+Zimbabwe|Harare
+Cote dIvoire|Abidjan
+Ghana|Kumasi
+Ghana|Accra
+Tanzania|Dar es Salaam
+Cameroon|Yaounde
+Cameroon|Douala
+Sudan|Omdurman
+Guinea|Conakry
+Liberia|Monrovia
+Ethiopia|Addis Ababa
+Kenya|Nairobi
+Senegal|Dakar
+Uganda|Kampala
+Mozambique|Maputo

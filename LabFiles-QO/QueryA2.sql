@@ -2,13 +2,23 @@
 
 .echo on
 
-.output TestOutput.log
+.eqp on
 
-SELECT Country.Name
-FROM Country, Encompasses, Continent
-WHERE Country.Code = Encompasses.Country
-  AND Encompasses.Continent = Continent.Name
-  AND Encompasses.Percentage + 0 > 50
-  AND Continent.Name = UPPER('europe');
+.output QueryA2Output.log
+
+/* DROP INDEX CountryCodeIndex;
+DROP INDEX CityPopulationIndex; */
+
+DROP INDEX CountryCodeIndex;
+DROP INDEX CityPopulationIndex;
+DROP INDEX EncompassesCountryIndex;
+DROP INDEX LanguageCountryIndex;
+SELECT c.Name AS country, ci.Name AS city, ci.Population, encompasses.continent, l.name
+FROM Country c
+JOIN City ci ON ci.Country = c.Code
+JOIN encompasses e ON e.country = c.Name
+JOIN Language l on l.country = c.Name
+WHERE ci.Population > 1000000
+ORDER BY ci.Population DESC;
 
 

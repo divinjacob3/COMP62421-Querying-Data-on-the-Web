@@ -1,0 +1,345 @@
+
+CREATE INDEX CountryCodeIndex ON Country(Code);
+CREATE INDEX CityPopulationIndex ON City(Population);
+SELECT c.Name AS country, ci.Name AS city, ci.Population
+FROM Country c
+JOIN City ci ON ci.Country = c.Code
+WHERE ci.Population > 1000000
+ORDER BY ci.Population DESC;
+QUERY PLAN
+|--SEARCH ci USING INDEX CityPopulationIndex (Population>?)
+`--SEARCH c USING INDEX sqlite_autoindex_Country_2 (Code=?)
+China|Shanghai|22315474
+Turkey|Istanbul|13710512
+India|Mumbai|12442373
+Russia|Moskva|11979529
+China|Beijing|11716620
+Brazil|Sao Paulo|11152344
+China|Tianjin|11090314
+China|Guangzhou|11071424
+India|Delhi|11034555
+China|Shenzhen|10358381
+China|Wuhan|9785388
+South Korea|Seoul|9708483
+Indonesia|Jakarta|9607787
+Pakistan|Karachi|9339023
+Japan|Tokyo|8591695
+Mexico|Ciudad de Mexico|8555272
+Egypt|Al Qahirah|8471859
+India|Bangalore|8443675
+United States|New York|8405837
+United Kingdom|London|8250205
+China|Dongguan|8220207
+Iran|Tehran|8154051
+Colombia|Bogota|7776845
+Peru|Lima|7605742
+Thailand|Bangkok|7506700
+China|Chongqing|7457600
+Bangladesh|Dhaka|7423137
+China|Chengdu|7415590
+China|Foshan|7194311
+China|Nanjing|7165292
+Hong Kong|Hong Kong|7055071
+India|Hyderabad|6731790
+China|Xian|6501190
+Brazil|Rio de Janeiro|6320446
+China|Shenyang|6255921
+China|Hangzhou|6241971
+Vietnam|Ho Chi Minh|5968384
+China|Harbin|5878939
+Iraq|Baghdad|5750000
+India|Ahmadabad|5577940
+China|Suzhou|5345961
+China|Shantou|5329024
+Myanmar|Yangon|5209541
+Nigeria|Lagos|5195247
+Pakistan|Lahore|5143495
+Singapore|Singapore|5076700
+Russia|Sankt Peterburg|5028000
+Angola|Luanda|5000000
+Chile|Santiago|4659048
+Zaire|Kinshasa|4655313
+India|Chennai|4646732
+Turkey|Ankara|4630735
+Australia|Sydney|4605992
+India|Kolkata|4496694
+India|Surat|4467797
+South Africa|Johannesburg|4434827
+Cote dIvoire|Abidjan|4395243
+Tanzania|Dar es Salaam|4364541
+China|Jinan|4335989
+China|Zhengzhou|4253913
+China|Changchun|4193073
+Australia|Melbourne|4169103
+Egypt|Al Iskandariyah|4123869
+China|Dalian|4087733
+Saudi Arabia|Riyadh|4087152
+Taiwan|New Taipei|3939305
+United States|Los Angeles|3884307
+China|Kunming|3855346
+South Africa|Cape Town|3740026
+China|Qingdao|3718835
+Japan|Yokohama|3629257
+China|Fuzhou|3572421
+China|Wuxi|3543719
+China|Xiamen|3531347
+China|Ningbo|3491597
+South Africa|eThekwini|3442361
+China|Nanning|3437171
+China|Taiyuan|3426519
+South Korea|Busan|3403135
+Turkey|Izmir|3401994
+China|Tangshan|3372102
+China|Hefei|3310268
+Germany|Berlin|3292365
+China|Changzhou|3290918
+North Korea|Pyongyang|3255288
+Spain|Madrid|3198645
+South Africa|Ekurhuleni - Germiston|3178471
+Kenya|Nairobi|3133518
+China|Zibo|3129228
+India|Pune|3124458
+China|Zhongshan|3121275
+China|Changsha|3093980
+China|Xuzhou|3053778
+India|Jaipur|3046163
+Ethiopia|Addis Ababa|3040740
+China|Wenzhou|3039439
+China|Guiyang|3034750
+China|Wulumuqi|3029372
+Bangladesh|Chittagong|2971102
+Morocco|Casablanca|2946440
+China|Fuzhou|2921762
+South Africa|Tshwane|2921488
+China|Shijiazhuang|2834942
+India|Lucknow|2817105
+Ukraine|Kyiv|2814258
+Saudi Arabia|Jeddah|2801481
+Taiwan|Kaohsiung|2778659
+Argentina|Buenos Aires|2768772
+Indonesia|Surabaya|2765487
+India|Kanpur|2765348
+Dominican Republic|Santo Domingo|2749703
+Iran|Mashhad|2749374
+United States|Chicago|2718782
+Taiwan|Taichung|2684893
+Egypt|Al Jizah|2681863
+Philippines|Quezon City|2679450
+Brazil|Salvador|2674923
+Taiwan|Taipei|2673226
+Vietnam|Hanoi|2644536
+South Korea|Incheon|2637652
+China|Huaian|2635406
+China|Lanzhou|2628426
+Italy|Roma|2617175
+Canada|Toronto|2615060
+Japan|Osaka|2543137
+Brazil|Brasilia|2482210
+Brazil|Fortaleza|2452185
+South Korea|Daegu|2444085
+Colombia|Medellin|2441123
+Afghanistan|Kabul|2435400
+India|Nagpur|2405665
+Indonesia|Bandung|2394873
+Brazil|Belo Horizonte|2375151
+Algeria|Algiers|2364230
+China|Nanchang|2357839
+Uzbekistan|Toshkent|2352900
+Colombia|Cali|2344734
+China|Huizhou|2344634
+Indonesia|Bekasi|2334871
+China|Linyi|2303648
+Ecuador|Guayaquil|2291158
+China|Nantong|2274113
+France|Paris|2249975
+China|Yantai|2227733
+United States|Houston|2195914
+Japan|Nagoya|2182154
+Syria|Halab|2181061
+Nigeria|Kano|2166554
+Azerbaijan|Baku|2150800
+Australia|Brisbane|2146577
+Cuba|La Habana|2141993
+China|Zaozhuang|2125481
+Indonesia|Medan|2097610
+China|Baotou|2096851
+Ghana|Accra|2070463
+China|Weifang|2044028
+Ghana|Kumasi|2035064
+Pakistan|Faisalabad|2008861
+Venezuela|Caracas|1975786
+India|Indore|1964086
+Cameroon|Douala|1907479
+Japan|Sapporo|1904319
+Romania|Bucuresti|1883425
+Taiwan|Tainan|1881645
+India|Thane|1841488
+Belarus|Minsk|1836808
+Nigeria|Ibadan|1835300
+Australia|Perth|1832114
+Cameroon|Yaounde|1817524
+Jordan|Amman|1812941
+Mali|Bamako|1809106
+Iraq|Al Mawsil|1800000
+Indonesia|Tangerang|1798601
+India|Bhopal|1798218
+Brazil|Manaus|1792881
+Austria|Wien|1761738
+Iran|Esfahan|1756126
+Brazil|Curitiba|1751907
+Indonesia|Depok|1738570
+Turkey|Bursa|1734705
+Hungary|Budapest|1729040
+India|Visakhapatnam|1728128
+India|Pimpri Chinchwad|1727692
+Poland|Warszawa|1711324
+Germany|Hamburg|1706696
+India|Patna|1684222
+India|Vadodara|1670806
+Guinea|Conakry|1667864
+Philippines|Manila|1660714
+Mexico|Ecatepec|1655015
+Canada|Montreal|1649519
+India|Ghaziabad|1648643
+Serbia|Beograd|1639121
+Turkey|Adana|1636229
+Ecuador|Quito|1619146
+India|Ludhiana|1618879
+Iran|Karaj|1614626
+Spain|Barcelona|1611013
+India|Agra|1585704
+Indonesia|Semarang|1555984
+United States|Philadelphia|1553165
+Syria|Dimashq|1552161
+Brazil|Recife|1537704
+Yemen|Sanaa|1527861
+Turkey|Kocaeli|1527407
+Russia|Novosibirsk|1523801
+Uganda|Kampala|1516210
+United States|Phoenix|1513367
+Japan|Kobe|1512109
+Kazakhstan|Almaty|1507737
+Libya|Tripoli|1500000
+South Korea|Daejeon|1495453
+Mexico|Guadalajara|1495182
+Iran|Tabriz|1494998
+India|Nashik|1486053
+Zimbabwe|Harare|1485231
+Burkina Faso|Ouagadougou|1475223
+South Korea|Gwangju|1469293
+Iran|Shiraz|1460665
+Indonesia|Palembang|1455284
+Bolivia|Santa Cruz de la Sierra|1453549
+Ukraine|Kharkiv|1441362
+Turkey|Gaziantep|1438373
+Mexico|Puebla|1434062
+Japan|Fukuoka|1422831
+India|Faridabad|1414050
+Pakistan|Rawalpindi|1409768
+Brazil|Porto Alegre|1409351
+United States|San Antonio|1409019
+Congo|Brazzaville|1408150
+Iraq|Al Basrah|1400000
+Russia|Yekaterinburg|1396074
+China|Anshan|1390000
+Japan|Kawasaki|1388481
+Japan|Kyoto|1382113
+Brazil|Belem|1381475
+China|Qiqihar|1380000
+Philippines|Kalookan|1378856
+Venezuela|Maracaibo|1372724
+Philippines|Davao|1363337
+United States|San Diego|1355896
+China|Fushun|1350000
+Germany|Munchen|1348335
+Indonesia|Makassar|1338663
+Mexico|Ciudad Juarez|1321004
+Uruguay|Montevideo|1318755
+India|Meerut|1305429
+Mexico|Tijuana|1300983
+Malaysia|Kuala Lumpur|1297526
+Brazil|Goiania|1297076
+Saudi Arabia|Makkah|1294106
+Indonesia|Tangerang Selatan|1290322
+Czech Republic|Praha|1289556
+India|Rajkot|1286678
+Sudan|Omdurman|1271403
+Bulgaria|Sofia|1270284
+China|Jilin|1270000
+Zambia|Lusaka|1269848
+Argentina|Cordoba|1267774
+Australia|Adelaide|1262940
+Russia|Nizhnii Novgorod|1259921
+United States|Dallas|1257676
+Argentina|San Justo|1256724
+India|Kalyan|1247327
+Italy|Milano|1242123
+Mexico|Leon|1238962
+Myanmar|Mandalay|1225133
+Japan|Saitama|1223954
+Brazil|Guarulhos|1221979
+Colombia|Barranquilla|1212943
+China|Huainan|1200000
+India|Varanasi|1198491
+Pakistan|Multan|1197384
+China|Luoyang|1190000
+India|Srinagar|1180570
+Russia|Kazan|1176187
+India|Aurangabad|1175116
+Russia|Samara|1171598
+United Arab Emirates|Dubai|1171000
+Pakistan|Hyderabad|1166894
+Japan|Hiroshima|1164654
+Russia|Omsk|1160670
+Myanmar|Nay Pyi Taw|1158367
+Russia|Chelyabinsk|1156201
+South Africa|Nelson Mandela Bay|1152115
+Mexico|Zapopan|1142483
+Mexico|Monterrey|1135512
+Pakistan|Gujranwala|1132509
+India|Amritsar|1132383
+Senegal|Dakar|1121935
+India|Allahabad|1112544
+Iran|Ahvaz|1112021
+China|Datong|1110000
+China|Handan|1110000
+Turkey|Konya|1107886
+Mexico|Nezahualcoyotl|1104585
+Russia|Rostov-na-Donu|1103733
+Lebanon|Bayrut|1100000
+Canada|Calgary|1096833
+Mozambique|Maputo|1094628
+United Kingdom|Birmingham|1085810
+South Korea|Ulsan|1081985
+Russia|Ufa|1077719
+India|Haora|1077075
+Iran|Qom|1074036
+Turkey|Antalya|1073794
+India|Ranchi|1073427
+Georgia|Tbilisi|1073345
+Armenia|Yerevan|1066264
+South Korea|Suwon|1064951
+South Korea|Changwon|1062731
+Brazil|Campinas|1061540
+India|Jabalpur|1055525
+India|Gwalior|1054420
+India|Coimbatore|1050721
+India|Vijayawada|1034358
+India|Jodhpur|1033756
+Nicaragua|Managua|1028808
+Niger|Niamey|1026848
+Japan|Sendai|1020241
+Russia|Volgograd|1018790
+India|Madurai|1017865
+Egypt|Shubra al Khimah|1016722
+Russia|Krasnoyarsk|1016385
+Russia|Perm|1013887
+Liberia|Monrovia|1010970
+India|Raipur|1010433
+Ukraine|Odesa|1008162
+Germany|Koln|1005775
+Turkey|Kayseri|1004276
+Russia|Voronezh|1003638
+Nepal|Kathmandu|1003285
+India|Kota|1001694
+

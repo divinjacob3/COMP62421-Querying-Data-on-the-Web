@@ -1,0 +1,258 @@
+
+SELECT c.Name AS CountryName, s.AvgPop AS AverageCityPopulation
+FROM Country c, (
+    SELECT ci.Country, AVG(ci.Population) AS AvgPop
+    FROM City ci
+    GROUP BY ci.Country
+) s
+WHERE c.Code = s.Country;
+QUERY PLAN
+|--CO-ROUTINE s
+|  |--SCAN ci
+|  `--USE TEMP B-TREE FOR GROUP BY
+|--SCAN s
+`--SEARCH c USING INDEX sqlite_autoindex_Country_2 (Code=?)
+Austria|277681.9
+Afghanistan|842775.0
+Antigua and Barbuda|22219.0
+Albania|136364.5
+American Samoa|
+Andorra|22256.0
+Angola|2756500.0
+Armenia|1066264.0
+Aruba|
+Australia|1127669.86666667
+Anguilla|
+Azerbaijan|921300.0
+Belgium|156266.714285714
+Bangladesh|1123666.53846154
+Barbados|88529.0
+Benin|344573.0
+Bermuda|
+Burkina Faso|982595.0
+Bulgaria|402139.833333333
+Bhutan|42465.0
+Burundi|497166.0
+Bosnia and Herzegovina|149578.285714286
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Bahrain|143035.0
+Brunei|279924.0
+Bahamas|248948.0
+British Virgin Islands|
+Belarus|554009.0
+Belize|33593.0
+Cuba|340619.571428571
+Cameroon|555826.111111111
+Cayman Islands|
+Canada|439462.942857143
+Ceuta|82376.0
+Switzerland|138194.6
+Cote dIvoire|694724.111111111
+Sri Lanka|381733.0
+China|1059027.57654723
+Colombia|604079.454545455
+Cocos Islands|
+Comoros|41557.0
+Cook Islands|
+Costa Rica|163623.857142857
+Curacao|125000.0
+Cape Verde|131719.0
+Cyprus|69160.6666666667
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Djibouti|475322.0
+Denmark|179921.428571429
+Dominican Republic|1670844.0
+Algeria|354034.5
+Spain|299252.274193548
+Kenya|760805.142857143
+Tanzania|438257.761904762
+Uganda|624406.333333333
+Ecuador|1136956.0
+Eritrea|380568.0
+El Salvador|205432.125
+Egypt|972385.086956522
+Ethiopia|432070.416666667
+Estonia|251312.0
+France|238451.780487805
+Falkland Islands|
+Faroe Islands|12245.0
+French Guiana|57229.0
+Fiji|75225.0
+Liechtenstein|5241.0
+French Polynesia|
+Micronesia|6062.5
+Gabon|249249.0
+Gaza Strip|449477.0
+United Kingdom|307458.913580247
+Guernsey|
+Jersey|
+Isle of Man|
+Gibraltar|
+Guatemala|559030.75
+Georgia|361007.5
+Ghana|435504.5
+Guinea-Bissau|
+Equatorial Guinea|79850.0
+Greece|162947.470588235
+Greenland|
+Guadeloupe|
+Guam|
+Guyana|118363.0
+Hungary|201125.823529412
+Honduras|174472.933333333
+Saint Helena|
+Hong Kong|7055071.0
+Croatia|226825.8
+Italy|272723.576923077
+Israel|268755.555555556
+India|1609495.05
+Iran|647863.92
+Ireland|194122.0
+Iraq|863343.533333333
+Iceland|43878.0
+Japan|980994.040816327
+Jamaica|662426.0
+Jordan|819604.333333333
+Cambodia|703963.0
+Kazakhstan|330711.863636364
+Kyrgyzstan|583450.0
+Kiribati|50182.0
+Saint Kitts and Nevis|15500.0
+Kosovo|198214.0
+Kuwait|637411.0
+Luxembourg|99852.0
+Laos|698318.0
+Libya|886666.666666667
+Liberia|1010970.0
+Lesotho|227880.0
+Lithuania|335045.333333333
+Latvia|696618.0
+Malta|6000.0
+Morocco|571776.294117647
+Macao|
+Malaysia|347125.894736842
+Martinique|100000.0
+Mayotte|
+Monaco|975.0
+Moldova|318539.0
+Melilla|78476.0
+Mexico|574321.108433735
+Marshall Islands|27797.0
+Macedonia|311356.0
+Montenegro|150977.0
+Mongolia|760077.0
+Montserrat|0.0
+Mozambique|327049.25
+Mauritius|
+Maldives|133019.0
+Malawi|667852.0
+Myanmar|1062327.88888889
+Norway|81258.7727272727
+Namibia|322500.0
+Nauru|
+New Caledonia|
+Nepal|424988.25
+Nicaragua|242366.222222222
+Niue|
+Netherlands|209771.730769231
+Sint Maarten|1338.0
+Northern Mariana Islands|
+North Korea|478277.631578947
+Norfolk Island|
+New Zealand|244424.4
+Oman|165104.0
+Portugal|130935.461538462
+Panama|225089.3
+Palau|6028.0
+Peru|581594.541666667
+Pitcairn|
+Pakistan|947098.64516129
+Poland|270119.926829268
+Papua New Guinea|318128.0
+Puerto Rico|214565.25
+Paraguay|370533.0
+Qatar|306353.5
+Russia|432296.315151515
+Argentina|390637.5
+Botswana|163706.0
+Taiwan|1177226.57142857
+Central African Republic|373473.5
+Congo|788438.666666667
+Chile|452342.111111111
+Reunion|145347.0
+Guinea|931021.0
+Haiti|366019.857142857
+Indonesia|896682.038461538
+Mauritania|247349.8
+Lebanon|1100000.0
+Madagascar|189998.0
+Mali|353354.625
+Niger|253357.0
+Romania|250736.833333333
+South Korea|1405778.30434783
+Uruguay|711383.0
+Philippines|553822.457142857
+South Africa|1676478.64285714
+San Marino|4227.0
+Togo|839566.0
+Rwanda|603049.0
+Sweden|134930.032258065
+Saudi Arabia|1727870.33333333
+Saint Barthelemy|2299.0
+Swaziland|57992.0
+Finland|139058.882352941
+Singapore|5076700.0
+Slovakia|138261.375
+Solomon Islands|49107.0
+Slovenia|197184.0
+Saint Martin|5700.0
+Suriname|240924.0
+Senegal|361424.6
+Somalia|
+Saint Pierre and Miquelon|5618.0
+Serbia|744229.666666667
+South Sudan|372410.0
+Sao Tome and Principe|49957.0
+Sudan|446360.8
+Svalbard|
+Seychelles|24970.0
+Syria|465054.764705882
+Tajikistan|271250.0
+Chad|951418.0
+Thailand|776344.076923077
+Timor-Leste|193563.0
+Turkmenistan|240820.0
+Tunisia|391454.333333333
+Tonga|23658.0
+Tokelau|490.0
+Turkey|630756.246575342
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Tuvalu|4492.0
+Ukraine|452592.973684211
+United Arab Emirates|647500.0
+United States|334211.59832636
+Uzbekistan|370252.941176471
+Holy See|842.0
+Virgin Islands|10354.0
+Vietnam|802610.055555556
+Vanuatu|44040.0
+Wallis and Futuna|
+Gambia|357238.0
+Sierra Leone|461415.0
+Nigeria|464444.306122449
+Dominica|14725.0
+West Bank|144639.0
+Grenada|37000.0
+Saint Lucia|3661.0
+Samoa|36735.0
+Western Sahara|183691.0
+Saint Vincent and the Grenadines|12909.0
+Christmas Island|
+Yemen|739976.25
+Venezuela|422572.04
+Zambia|430569.142857143
+Zaire|525329.333333333
+Zimbabwe|831802.666666667

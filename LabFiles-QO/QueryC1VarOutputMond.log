@@ -1,0 +1,97 @@
+
+SELECT DISTINCT c.Name
+FROM country c
+JOIN city ci ON CAST(c.Code AS TEXT) = CAST(ci.Country AS TEXT)
+WHERE ci.Population > 1000000;
+QUERY PLAN
+|--SCAN c USING INDEX sqlite_autoindex_Country_1
+`--SCAN ci
+Afghanistan
+Algeria
+Angola
+Argentina
+Armenia
+Australia
+Austria
+Azerbaijan
+Bangladesh
+Belarus
+Bolivia
+Brazil
+Bulgaria
+Burkina Faso
+Cameroon
+Canada
+Chile
+China
+Colombia
+Congo
+Cote dIvoire
+Cuba
+Czech Republic
+Dominican Republic
+Ecuador
+Egypt
+Ethiopia
+France
+Georgia
+Germany
+Ghana
+Guinea
+Hong Kong
+Hungary
+India
+Indonesia
+Iran
+Iraq
+Italy
+Japan
+Jordan
+Kazakhstan
+Kenya
+Lebanon
+Liberia
+Libya
+Malaysia
+Mali
+Mexico
+Morocco
+Mozambique
+Myanmar
+Nepal
+Nicaragua
+Niger
+Nigeria
+North Korea
+Pakistan
+Peru
+Philippines
+Poland
+Romania
+Russia
+Saudi Arabia
+Senegal
+Serbia
+Singapore
+South Africa
+South Korea
+Spain
+Sudan
+Syria
+Taiwan
+Tanzania
+Thailand
+Turkey
+Uganda
+Ukraine
+United Arab Emirates
+United Kingdom
+United States
+Uruguay
+Uzbekistan
+Venezuela
+Vietnam
+Yemen
+Zaire
+Zambia
+Zimbabwe

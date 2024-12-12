@@ -1,0 +1,2454 @@
+
+SELECT c.Name AS CountryName, s.AvgPop AS AverageCityPopulation
+FROM Country c, (
+    SELECT ci.Country, AVG(ci.Population) AS AvgPop
+    FROM City ci
+    GROUP BY ci.Country
+) s
+WHERE c.Code = s.Country;
+QUERY PLAN
+|--CO-ROUTINE s
+|  |--SCAN ci
+|  `--USE TEMP B-TREE FOR GROUP BY
+|--SCAN c
+`--SEARCH s USING AUTOMATIC COVERING INDEX (Country=?)
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
+Albania|136364.5
+Greece|162947.470588235
+Macedonia|311356.0
+Serbia|744229.666666667
+Montenegro|150977.0
+Kosovo|198214.0
+Andorra|22256.0
+France|238451.780487805
+Spain|299252.274193548
+Austria|277681.9
+Czech Republic|226645.307692308
+Germany|301185.674698795
+Hungary|201125.823529412
+Italy|272723.576923077
+Liechtenstein|5241.0
+Slovakia|138261.375
+Slovenia|197184.0
+Switzerland|138194.6
+Belarus|554009.0
+Latvia|696618.0
+Lithuania|335045.333333333
+Poland|270119.926829268
+Ukraine|452592.973684211
+Russia|432296.315151515
+Belgium|156266.714285714
+Luxembourg|99852.0
+Netherlands|209771.730769231
+Bosnia and Herzegovina|149578.285714286
+Croatia|226825.8
+Bulgaria|402139.833333333
+Romania|250736.833333333
+Turkey|630756.246575342
+Denmark|179921.428571429
+Estonia|251312.0
+Faroe Islands|12245.0
+Finland|139058.882352941
+Norway|81258.7727272727
+Sweden|134930.032258065
+Monaco|975.0
+Gibraltar|
+Guernsey|
+Holy See|842.0
+Ceuta|82376.0
+Melilla|78476.0
+Iceland|43878.0
+Ireland|194122.0
+San Marino|4227.0
+Jersey|
+Malta|6000.0
+Isle of Man|
+Moldova|318539.0
+Portugal|130935.461538462
+Svalbard|
+United Kingdom|307458.913580247
+Afghanistan|842775.0
+China|1059027.57654723
+Iran|647863.92
+Pakistan|947098.64516129
+Tajikistan|271250.0
+Turkmenistan|240820.0
+Uzbekistan|370252.941176471
+Armenia|1066264.0
+Georgia|361007.5
+Azerbaijan|921300.0
+Bahrain|143035.0
+Bangladesh|1123666.53846154
+Myanmar|1062327.88888889
+India|1609495.05
+Bhutan|42465.0
+Brunei|279924.0
+Malaysia|347125.894736842
+Laos|698318.0
+Thailand|776344.076923077
+Cambodia|703963.0
+Vietnam|802610.055555556
+Kazakhstan|330711.863636364
+North Korea|478277.631578947
+Kyrgyzstan|583450.0
+Hong Kong|7055071.0
+Macao|
+Mongolia|760077.0
+Nepal|424988.25
+Christmas Island|
+Cocos Islands|
+Cyprus|69160.6666666667
+Gaza Strip|449477.0
+Israel|268755.555555556
+Egypt|972385.086956522
+Indonesia|896682.038461538
+Timor-Leste|193563.0
+Papua New Guinea|318128.0
+Iraq|863343.533333333
+Jordan|819604.333333333
+Kuwait|637411.0
+Saudi Arabia|1727870.33333333
+Syria|465054.764705882
+Lebanon|1100000.0
+West Bank|144639.0
+Japan|980994.040816327
+South Korea|1405778.30434783
+Maldives|133019.0
+Oman|165104.0
+United Arab Emirates|647500.0
+Yemen|739976.25
+Philippines|553822.457142857
+Qatar|306353.5
+Singapore|5076700.0
+Sri Lanka|381733.0
+Taiwan|1177226.57142857
+Anguilla|
+Antigua and Barbuda|22219.0
+Aruba|
+Bahamas|248948.0
+Barbados|88529.0
+Belize|33593.0
+Guatemala|559030.75
+Mexico|574321.108433735
+Bermuda|
+British Virgin Islands|
+Canada|439462.942857143
+United States|334211.59832636
+Cayman Islands|
+Costa Rica|163623.857142857
+Nicaragua|242366.222222222
+Panama|225089.3
+Cuba|340619.571428571
+Dominica|14725.0
+Dominican Republic|1670844.0
+Haiti|366019.857142857
+El Salvador|205432.125
+Honduras|174472.933333333
+Greenland|
+Grenada|37000.0
+Guadeloupe|
+Jamaica|662426.0
+Martinique|100000.0
+Montserrat|0.0
+Curacao|125000.0
+Sint Maarten|1338.0
+Saint Martin|5700.0
+Saint Barthelemy|2299.0
+Colombia|604079.454545455
+Puerto Rico|214565.25
+Saint Kitts and Nevis|15500.0
+Saint Lucia|3661.0
+Saint Pierre and Miquelon|5618.0
+Saint Vincent and the Grenadines|12909.0
+Trinidad and Tobago|548299.0
+Turks and Caicos Islands|
+Virgin Islands|10354.0
+American Samoa|
+Australia|1127669.86666667
+Cook Islands|
+Fiji|75225.0
+French Polynesia|
+Guam|
+Kiribati|50182.0
+Marshall Islands|27797.0
+Micronesia|6062.5
+Nauru|
+New Caledonia|
+New Zealand|244424.4
+Niue|
+Norfolk Island|
+Northern Mariana Islands|
+Palau|6028.0
+Pitcairn|
+Solomon Islands|49107.0
+Tonga|23658.0
+Tuvalu|4492.0
+Tokelau|490.0
+Vanuatu|44040.0
+Wallis and Futuna|
+Samoa|36735.0
+Argentina|390637.5
+Bolivia|428260.416666667
+Brazil|459041.574257426
+Chile|452342.111111111
+Paraguay|370533.0
+Uruguay|711383.0
+Peru|581594.541666667
+French Guiana|57229.0
+Guyana|118363.0
+Suriname|240924.0
+Venezuela|422572.04
+Ecuador|1136956.0
+Falkland Islands|
+Algeria|354034.5
+Libya|886666.666666667
+Mali|353354.625
+Mauritania|247349.8
+Morocco|571776.294117647
+Niger|253357.0
+Tunisia|391454.333333333
+Western Sahara|183691.0
+Angola|2756500.0
+Congo|788438.666666667
+Namibia|322500.0
+Zaire|525329.333333333
+Zambia|430569.142857143
+Benin|344573.0
+Burkina Faso|982595.0
+Nigeria|464444.306122449
+Togo|839566.0
+Botswana|163706.0
+South Africa|1676478.64285714
+Zimbabwe|831802.666666667
+Cote dIvoire|694724.111111111
+Ghana|435504.5
+Burundi|497166.0
+Rwanda|603049.0
+Tanzania|438257.761904762
+Cameroon|555826.111111111
+Central African Republic|373473.5
+Chad|951418.0
+Equatorial Guinea|79850.0
+Gabon|249249.0
+Cape Verde|131719.0
+Sudan|446360.8
+South Sudan|372410.0
+Comoros|41557.0
+Guinea|931021.0
+Liberia|1010970.0
+Djibouti|475322.0
+Eritrea|380568.0
+Ethiopia|432070.416666667
+Somalia|
+Kenya|760805.142857143
+Gambia|357238.0
+Senegal|361424.6
+Guinea-Bissau|
+Sierra Leone|461415.0
+Uganda|624406.333333333
+Lesotho|227880.0
+Madagascar|189998.0
+Malawi|667852.0
+Mozambique|327049.25
+Mauritius|
+Mayotte|
+Swaziland|57992.0
+Reunion|145347.0
+Saint Helena|
+Sao Tome and Principe|49957.0
+Seychelles|24970.0
