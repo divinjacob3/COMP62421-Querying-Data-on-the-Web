@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.7.3)  12 DEC 2024 17:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.7.3)  13 DEC 2024 00:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -362,15 +362,30 @@ Overfull \hbox (12.09964pt too wide) in alignment at lines 80--114
  []
 
 [2]
-Overfull \hbox (5.2913pt too wide) in paragraph at lines 129--129
+Overfull \hbox (5.2913pt too wide) in paragraph at lines 127--127
 []    \OT1/cmtt/m/n/9 FILTER(?cName in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))[] 
  []
 
 
 
 [3]
-Overfull \hbox (0.56636pt too wide) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 129--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 129--138
+
+ []
+
+
+Overfull \hbox (0.56636pt too wide) in paragraph at lines 152--152
 []    \OT1/cmtt/m/n/9 FILTER(?Name in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--164
+
  []
 
 
@@ -378,33 +393,76 @@ Overfull \hbox (0.56636pt too wide) in paragraph at lines 144--144
 [4]
 
 [5]
+Underfull \hbox (badness 10000) in paragraph at lines 225--241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--241
+
+ []
+
+
 
 [6]
+Underfull \hbox (badness 10000) in paragraph at lines 256--264
+
+ []
+
+
 
 [7]
+Underfull \hbox (badness 10000) in paragraph at lines 296--312
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 296--312
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 296--312
+
+ []
+
+
 
 [8]
 
 [9]
 
-[10] (report.aux)
+[10]
+
+[11]
+
+[12]
+
+[13]
+
+[14] (report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-05-27>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2758 strings out of 473904
- 43013 string characters out of 5726601
+ 2761 strings out of 473904
+ 43045 string characters out of 5726601
  1943908 words of memory out of 5000000
- 25620 multiletter control sequences out of 15000+600000
- 564071 words of font info for 57 fonts, out of 8000000 for 9000
+ 25622 multiletter control sequences out of 15000+600000
+ 564239 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,323b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on report.pdf (10 pages, 85777 bytes).
+ 57i,6n,65p,344b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/44744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on report.pdf (14 pages, 108049 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

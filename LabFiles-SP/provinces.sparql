@@ -33,3 +33,42 @@ WHERE {
   BIND(COALESCE(STR(?capitalLabel), STR(?largestCityLabel)) AS ?Capital)
 }
 GROUP BY ?Name ?Country ?population ?Capital
+
+
+
+
+
+
+
+
+
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Name ?Country xsd:integer(?population) AS ?Population 
+    xsd:integer(SAMPLE(?totalArea) / 1000) AS ?Area ?Capital STR(SAMPLE(?provLabel)) AS ?CapProv
+WHERE{
+    ?countryP rdf:type dbo:Country;
+        dcterms:subject dbc:Member_states_of_the_United_Nations;
+        rdfs:label ?countryName.
+    OPTIONAL{?countryP dbo:iso31661Code ?isoCode}
+    ?region a dbo:AdministrativeRegion;
+        dbo:country ?countryP;
+        rdfs:label ?regionName.
+    FILTER NOT EXISTS {
+        ?region a dbo:ClericalAdministrativeRegion.}
+    OPTIONAL{?region dbo:areaTotal ?totalArea}
+    OPTIONAL{?region dbo:populationTotal ?population}
+    OPTIONAL{
+            ?region dbo:largestCity ?capitalCity.
+            ?capitalCity rdfs:label ?capitalLabel.
+            ?capitalCity dbo:subdivision ?cprov.
+            ?cprov rdfs:label ?provLabel.
+            FILTER(lang(?capitalLabel) = "en")
+            FILTER(lang(?provLabel) = "en")}
+
+    FILTER(lang(?countryName) = "en" && lang(?regionName) = "en")
+    BIND(COALESCE(STR(?isoCode), STR(?countryName)) AS ?Country)
+    BIND(STR(?regionName) AS ?Name)
+    BIND(STR(?capitalLabel) AS ?Capital)
+}
+GROUP BY ?Name ?Country ?population ?Capital
+ORDER BY DESC(?Capital)

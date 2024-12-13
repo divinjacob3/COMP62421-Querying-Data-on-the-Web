@@ -6,7 +6,7 @@
 \usepackage{titling}
 
 \setlength{\droptitle}{-5em}
-
+\pagenumbering{gobble}
 \begin{document}
 
 \title{\LARGE{\textbf{SPARQL Lab Report}}\vspace{-2em}}
@@ -30,24 +30,24 @@
     \hline
     \endhead
 
-    Exploring predicates for continents & 01:15 & 
+    Exploring predicates for continents & 00:25 & 
         - Took some time to find the correct predicate for continents \newline
         - Had to investigate sensible methods to remove sub continents and other entities which
         were classified as continent, but do not relate to the meaning of continent in Mondial.
     \\
     \hline
-    Exploring predicates for countries & 01:35 & 
+    Exploring predicates for countries & 00:30 & 
         - Had many former countries, and unrecognised countries \newline
         - Faced issues with namespaces and choice of predicates \newline
-        - Needed to use filters to get valid, current countries
+        - Needed to investigate how to remove unrecognised and defunct countries.
     \\
     \hline
-    Exploring predicates for cities & 01:25 & 
+    Exploring predicates for cities & 00:25 & 
         - Faced issues with namespaces and choice of predicates \newline
         - Needed to get cities based on valid, current countries
     \\
     \hline
-    Exploring predicates for provinces & 02:50 & 
+    Exploring predicates for provinces & 01:25 & 
         - Could not retrieve provinces using the same predicates from cities and countries.  \newline
         - Had to further investigate how a province could be classified in dbpedia. \newline
         - Some provinces included clerical regions, such as religious diocese, this required further investigation for removal.
@@ -59,7 +59,7 @@
         further investigation on how these organizations can be specifically filtered.
     \\
     \hline
-    Exploring predicates for languages & 01:55 & 
+    Exploring predicates for languages & 01:15 & 
         - Countries did not have one common property for spoken languages, this required further investigation of countries to identify the
         variations of how spoken languages are represented for each country.
     \\
@@ -79,7 +79,7 @@
     \hline
     \endhead
 
-    Retrieving predicates for continents & 00:35 & 
+    Retrieving predicates for continents & 00:45 & 
         - Most continents had predicates for Area. \newline
         - Missing values for area was allowed, as I could not find a path to any other predicates which could represent area of continents.
     \\
@@ -90,12 +90,12 @@
         - There were some missing values, in such instances a comprimise was made to either allow or fill-in a missing value.
     \\
     \hline
-    Retrieving predicates for cities & 02:00 & 
+    Retrieving predicates for cities & 01:55 & 
         - Faced some problems in retrieving a province for the city. \newline
         - Some predicates were missing, e.g. population, latitude, longitude and elevation.
     \\
     \hline
-    Retrieving predicates for provinces & 03:00 & 
+    Retrieving predicates for provinces & 02:00 & 
         - Most of the time was taken to find a way to get a capital city for provinces, escpecially where such values were missing, I had to decide on the best way to impute a value.  \newline
         - Took time to handle missing values for population and area. \newline
         - Used existing filters from exploration to remove clerical/religious administrative regions.
@@ -106,7 +106,7 @@
         - Information about the headquarter city/country/province were difficult to retrieve, most of it were missing and I did not have enough time to find alternative predicates that represent this information.
     \\
     \hline
-    Retrieving predicates for languages & 02:30 & 
+    Retrieving predicates for languages & 01:30 & 
         - Most of the time was spent on calculating the percentage of speakers. No langauges had a percentage of speakers, so it required a hacky way of calculating a percentage. \newline
         - Some languages did not have a property for the number of speakers. I did not have enough time to find other properties which may refer to the number of speakers.
     \\
@@ -114,19 +114,27 @@
 \end{longtable}
 
 \section{Continent}
-
 \subsection{Exploration}
-
 {\footnotesize\begin{verbatim}
 SELECT DISTINCT ?continent
 WHERE {
     ?continent rdf:type dbo:Continent.
     ?continent rdfs:label ?continentN.
     FILTER(lang(?continentN) = "en")
-    BIND(REPLACE(?continentN, "@en", "" ) AS ?cName)
+    BIND(STR(?continentN) AS ?cName)
     FILTER(?cName in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
 }
 \end{verbatim}}
+
+For the Continent concept, the goal of the exploration was to identify the continents present in DBpedia and confirm their relevance to the Mondial database.
+\\ \\
+Retrieving all continent entities of the class \texttt{dbo:Continent} showed that DBpedia classified sub-continents and continental regions as part
+\texttt{dbo:Continent} ontology.
+Moreover, DBpedia holds multiple continents with the same name as separate continents, e.g. Australasia, and Oceania. Another conflict
+was that Mondial does not distinguish between North America or South America, rather, it's classified together as America. DBpedia did not present any results
+where both North America and South America were classified together as a continent.
+\\ \\
+Due to these reasons, filters on the continent name were used to retrieve URIs of continents similar to those stored in the Mondial database.
 
 \subsection{Retrieval}
 
@@ -136,13 +144,23 @@ WHERE {
     ?continent rdf:type dbo:Continent.
     ?continent rdfs:label ?continentN.
     FILTER(lang(?continentN) = "en")
-    BIND(REPLACE(?continentN, "@en", "" ) AS ?Name)
+    BIND(STR(?continentN) AS ?Name)
     FILTER(?Name in ("North America", "South America", "Oceania", "Asia", "Europe", "Africa"))
     OPTIONAL{?continent dbo:areaTotal ?AreaTotal}
-    BIND(?AreaTotal / 1000000 AS ?Area)
+    BIND(?AreaTotal / 1000000 AS ?Area) #Convert m^2 to km^2
 }
 \end{verbatim}}
 
+The goal of the retrieval query was to build on top of the exploratory query to retrieve continent names and the area in squared kilometers, as seen in the Mondial database. From exploring the URI pages for all the
+continents, it was found that Europe did not have a predicate for the toal area, all the other continent had a predicate: texttt{dbo:areaTotal}.
+This demonstrates one of the challenges of working with schema-less graph databases, where properties are not uniformly applied across all instances of a particular type
+(e.g., dbo:Continent). Such inconsistencies can limit the accuracy and comprehensiveness of the dataset.
+To handle this limitation, the retrieval query uses the OPTIONAL keyword, ensuring that the absence of dbo:areaTotal for Europe does not cause the query to omit true continents.
+\\ \\
+The query is effective to an extent for retreiving continents relevant to Mondial. It's able to retrieve both the continent name and the total area (where available), using strict
+filters and language constraints to ensure minimal and relevant data retrieval. Although it supresses the absence of continent area, further work could be done to sum up areas of countries within 
+continents, to get a reasonable estimate. This does however mean that the query may become more complex and less efficient, as it would require the traversal of additional relationships and
+the addition of more triple patterns. It would also require more time to investigate a path between continent and country.
 
 \section{Country}
 \subsection{Exploration}
@@ -156,6 +174,13 @@ WHERE {
 }
 \end{verbatim}}
 
+
+The goal of this query was to identify and retrieve country URIs in DBpedia and ensure alignment with those in Mondial. When retrieving all entities of the dbo:Country class, it was
+found that it included relevant countries, but also defunct and unrecognised countries.
+
+A suitable approach to remove incorrect countries was to find countries which are members of the UN. This would ensure that defunct or unrecognised countries
+would not be retrieved. A limitation of this however, was that in Mondial overseas territories (e.g. Réunion) and administrative regions (e.g. Hong Kong) of countries are classed as
+a separate country. Due to time constraints retrieving countries based on UN membership was the most viable option.
 
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
@@ -173,7 +198,7 @@ WHERE {
     ?country rdfs:label ?countryN.
     OPTIONAL{?country dbo:iso31661Code ?isoCode.}
     FILTER(lang(?countryN) = "en")
-    BIND(REPLACE(?countryN, "@en", "") AS ?Name)
+    BIND(STR(?countryN) AS ?Name)
     FILTER(?Name != "Member states of the United Nations")
     OPTIONAL{?country dbo:populationTotal ?cPop}
     OPTIONAL{?country dbp:populationEstimate ?popEst}
@@ -182,20 +207,37 @@ WHERE {
     {
         ?country dbo:capital ?capitalC.
     } UNION {
-        ?country dbr:capital ?capitalC.
+        ?country dbp:capital ?capitalC.
     }
     ?capitalC rdfs:label ?capitalCN. 
     FILTER(lang(?capitalCN) = "en")
-    BIND(REPLACE(?capitalCN, "@en", "") AS ?capitalCity)
+    BIND(STR(?capitalCN) AS ?capitalCity)
     OPTIONAL{ 
         ?capitalC dbo:subdivision ?capitalSubdivisionEntity.
         ?capitalSubdivisionEntity rdfs:label ?capitalSubdivisionN.
         FILTER(lang(?capitalSubdivisionN) = "en")
-        BIND(REPLACE(?capitalSubdivisionN, "@en", "") AS ?capitalSubdivision)}
+        BIND(STR(?capitalSubdivisionN) AS ?capitalSubdivision)}
     BIND(COALESCE(?capitalSubdivision, ?Name) AS ?ProvinceValue)
 }
 GROUP BY ?Name ?isoCode ?cPop ?popEst ?popCen
 \end{verbatim}}
+
+The retrieval query builds on the exploratory query to extract key country attributes relevant to the Mondial database: Name, code, capital,
+province of the capital, population, and area. 
+\\ \\
+To account for graph database inconsistencies, the query handles cases where certain properties are missing. For instance, while dbo:capital is used
+to identify the capital city for many countries, some rely on dbp:capital (e.g. Denmark), so a union is applied to retrieve capital names
+consistently. Similarly, ISO codes (?isoCode) are not available for all countries; in such cases, the country name is used as a fallback to
+maintain data completeness. Area values are also not consistently identifiable, and the query accounts for their absence without omitting the
+corresponding countries.
+\\ \\
+Population data was also missing for some countries, in such instances, estimates and census data were used. These various predicates were
+used to retrieve potential population values and coalesced to minimise missing data. Some predicates also had multiple values for population,
+so aggregation and sampling were used to prevent multiple rows of the same country. 
+\\ \\
+By grouping data and using functions like SAMPLE, the query efficiently handles duplicates and inconsistencies. The query is effective to an extent
+where it uses various candidate values for missing populations and country codes. However from a scalability perspective, the inclusion of multiple
+OPTIONAL clauses and unions introduces complexity, potentially increasing execution time as the number of triples grows. 
 
 \section{City}
 
@@ -210,6 +252,15 @@ WHERE {
         dbo:country ?country.
 }
 \end{verbatim}}
+
+The goal of this query was to identify city entities in DBpedia and establish their association with countries, and ensuring relevance to the Mondial
+database. By limiting countries to UN member countries, the query excludes cities located in defunct or unrecognised countries. Each city is
+linked to a country through the dbo:country predicate, ensuring proper hierarchical alignment.
+\\ \\
+A limitation of this approach is that cities in overseas territories (e.g. Réunion) or administrative regions (e.g. Hong Kong) are omitted,
+potentially leading to incomplete coverage. Additionally, variations in how DBpedia classifies cities and their hierarchical relations
+with countries may introduce inconsistencies with how the Mondial database defines cities. However, this approach provides a robust starting point
+for retrieving cities relevant to the Mondial database while maintaining efficiency by focusing only on recognised UN member countries.
 
 \subsection{Retrieval}
 {\footnotesize\begin{verbatim}
@@ -242,8 +293,24 @@ WHERE {
 GROUP BY ?Country ?Name ?Population
 \end{verbatim}}
 
-\section{Province}
+The retrieval query involved finding city name, country, province of the city, population, longitude, latitude and elevation.
+\\ \\
+The query builds on the exploration query, ensuring that cities are part of UN countries, ensuring that the countries column would not have
+missing values. The query uses existing statements from previous concept queries to hande missing values. One notable feature of the query is
+the use of SAMPLE for handling optional data, such as the province, latitude, longitude, elevation, and population. This ensures that the query
+returns only one value per city for each attribute, even when multiple values exist in DBpedia.
+\\ \\
+The query is effective to an extent as it is able to retrieve known cities such as New York, Manchester, Paris, etc. and  can handle missing values
+such as population, and geographical properties, some of which are also missing in Mondial. However, as with most concepts in DBpedia, the definition of cities
+differs to that of Mondial. The predicate dbo:City includes a wider variety of urban settlements, ranging from larger muncipalities to smaller towns, which are
+not necessarily considered cities in the Mondial database. Further investigation could have been carried out to identify patterns that filters out smaller
+towns and settlements.
+\\ \\
+The inclusion of multiple optional statements can increase the complexity. As more optional relationships (e.g., subdivisions or population estimates) are
+added, the query may take longer to execute, especially on larger datasets, since it needs to explore multiple potential connections for each city. This can
+slow down performance if the dataset is large, as each city is being linked to multiple properties.
 
+\section{Province}
 \subsection{Exploration}
 {\footnotesize\begin{verbatim}
 PREFIX dcterms: <http://purl.org/dc/terms/>
@@ -342,8 +409,7 @@ WHERE {
     OPTIONAL {?org dbp:formation ?formation .}
     OPTIONAL{?org dbo:foundingYear ?established.}
     OPTIONAL{?org dbo:headquarter ?hq . 
-        OPTIONAL{
-            ?hq rdf:type dbo:City .
+        { ?hq rdf:type dbo:City .
             ?hq rdfs:label ?hqLabel . FILTER(lang(?hqLabel) = "en")
             OPTIONAL{?hq dbo:country ?hqCountry .
                 ?hqCountry rdfs:label ?hqCountryName .
@@ -353,9 +419,8 @@ WHERE {
                 ?hqRegion rdfs:label ?hqRegionName .
                 FILTER(lang(?hqRegionName) = "en") }
             OPTIONAL{?hq rdfs:label ?hqCityName .
-                FILTER(lang(?hqCityName) = "en") }}    
-        OPTIONAL {
-            ?hq rdf:type dbo:Country .
+                FILTER(lang(?hqCityName) = "en") }
+        } UNION { ?hq rdf:type dbo:Country .
             OPTIONAL{?hq dbo:iso31661Code ?isoCode}
             ?hq rdfs:label ?hqCountryName .
             FILTER(lang(?hqCountryName) = "en")}}
@@ -421,6 +486,59 @@ WHERE {
 GROUP BY ?Country ?Language ?Population
 \end{verbatim}}
 
-\section{Religion}
+\section{Ethnic Group}
 
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?country ?ethnicGroup
+WHERE {
+    ?country rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations ;
+        rdfs:label ?countryName .
+    ?country dbo:ethnicGroup ?ethnicGroup.
+    ?ethnicGroup rdf:type dbo:EthnicGroup.
+}
+\end{verbatim}}
+Some ethnic groups included religions.
+
+\subsection{Retrieval}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Country ?Name
+SAMPLE(xsd:decimal(?pop))/MAX(xsd:decimal(?population)) AS ?Percentage
+WHERE {
+    ?countryE rdf:type dbo:Country ;
+    dcterms:subject dbc:Member_states_of_the_United_Nations ;
+    rdfs:label ?countryName .
+    OPTIONAL{?countryE dbo:iso31661Code ?isoCode}
+    OPTIONAL{?countryE dbo:populationTotal ?population.}
+
+    ?countryE dbo:ethnicGroup ?ethnicGroup.
+    ?ethnicGroup rdf:type dbo:EthnicGroup;
+        rdfs:label ?egLbl.
+    FILTER(lang(?egLbl) = "en")
+    FILTER(lang(?countryName) = "en")
+    {
+        ?ethnicGroup dbp:population ?pop.
+    } UNION {
+        ?ethnicGroup dbo:totalPopulation ?pop.
+    }
+    BIND(COALESCE(STR(?isoCode), STR(?countryName)) AS ?Country)
+    BIND(STR(?egLbl) AS ?Name)
+} GROUP BY ?Country ?Name
+\end{verbatim}}
+
+\section{Religion}
+\subsection{Exploration}
+{\footnotesize\begin{verbatim}
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?country ?religion
+WHERE {
+    ?country rdf:type dbo:Country ;
+        dcterms:subject dbc:Member_states_of_the_United_Nations ;
+        rdfs:label ?countryName .
+    ?country dbo:religion ?religion.
+}
+\end{verbatim}}
 \end{document}

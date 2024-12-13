@@ -224,7 +224,7 @@ WHERE {
     {
         ?country dbo:capital ?capitalC.
     } UNION {
-        ?country dbr:capital ?capitalC.
+        ?country dbp:capital ?capitalC.
     }
         ?capitalC rdfs:label ?capitalCN. 
         FILTER(lang(?capitalCN) = "en")
